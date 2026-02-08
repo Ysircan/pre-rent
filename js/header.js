@@ -1,31 +1,22 @@
-// ===== load header =====
-fetch('./partials/header.html')
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('header-placeholder').innerHTML = html;
-    setActiveNav();
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("menuToggle");
+  const mobileNav = document.getElementById("mobileNav");
 
-// ===== active nav =====
-function setActiveNav() {
-  const path = window.location.pathname;
-  const links = document.querySelectorAll('.nav-link');
-
-  links.forEach(link => {
-    const href = link.getAttribute('href');
-    link.classList.remove('is-active');
-
-    if (path.endsWith(href)) {
-      link.classList.add('is-active');
-    }
-  });
-
-  // 首页兜底
-  if (
-    path.endsWith('/') ||
-    path.endsWith('index.html')
-  ) {
-    const homeLink = document.querySelector('.nav-link[href="index.html"]');
-    if (homeLink) homeLink.classList.add('is-active');
+  if (toggle && mobileNav) {
+    toggle.addEventListener("click", () => {
+      mobileNav.classList.toggle("show");
+    });
   }
-}
+
+  // active nav highlight
+  const page = document.body.dataset.page;
+  if (!page) return;
+
+  document
+    .querySelectorAll("[data-page]")
+    .forEach(el => {
+      if (el.dataset.page === page) {
+        el.classList.add("is-active");
+      }
+    });
+});

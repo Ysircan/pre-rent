@@ -1,6 +1,7 @@
 <header class="site-header">
   <div class="header-inner">
 
+    <!-- LOGO -->
     <div class="logo-block">
       <img src="./assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="RentScope">
       <div class="logo-text">
@@ -9,22 +10,25 @@
       </div>
     </div>
 
+    <!-- DESKTOP NAV -->
     <nav class="main-nav">
-      <a class="nav-link is-active" href="index.html">Home</a>
-      <a class="nav-link" href="minimum-standards.html">Minimum Standards</a>
-      <a class="nav-link" href="professional-service.html">Professional Service</a>
-      <a class="nav-link" href="room-suitability.html">Room Suitability</a>
-      <a class="nav-link" href="book.html">Book a Check</a>
+      <a class="nav-link" data-page="index" href="./index.html">Home</a>
+      <a class="nav-link" data-page="minimum" href="./minimum-standards.html">Minimum Standards</a>
+      <a class="nav-link" data-page="professional" href="./professional-service.html">Professional Service</a>
+      <a class="nav-link" data-page="room" href="./room-suitability.html">Room Suitability</a>
+      <a class="nav-link" data-page="book" href="./book.html">Book a Check</a>
     </nav>
 
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <!-- MOBILE TOGGLE -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
   </div>
 
+  <!-- MOBILE NAV -->
   <nav class="mobile-nav" id="mobileNav">
-    <a class="is-active" href="index.html">Home</a>
-    <a href="minimum-standards.html">Minimum Standards</a>
-    <a href="professional-service.html">Professional Service</a>
-    <a href="room-suitability.html">Room Suitability</a>
-    <a href="book.html">Book a Check</a>
+    <a data-page="index" href="./index.html">Home</a>
+    <a data-page="minimum" href="./minimum-standards.html">Minimum Standards</a>
+    <a data-page="professional" href="./professional-service.html">Professional Service</a>
+    <a data-page="room" href="./room-suitability.html">Room Suitability</a>
+    <a data-page="book" href="./book.html">Book a Check</a>
   </nav>
 </header>
