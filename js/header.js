@@ -1,12 +1,34 @@
-fetch('./partials/header.html')
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('header-placeholder').innerHTML = html;
+// ===== header active state =====
+(function () {
+  const path = window.location.pathname;
+  const links = document.querySelectorAll('.nav-link');
 
-    const toggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
+  links.forEach(link => {
+    link.classList.remove('is-active');
 
-    toggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('show');
-    });
+    const href = link.getAttribute('href');
+
+    if (
+      (path.endsWith('index.html') || path === '/' || path === '') &&
+      href.includes('index.html')
+    ) {
+      link.classList.add('is-active');
+    }
+
+    if (path.endsWith('minimum-standards.html') && href.includes('minimum-standards')) {
+      link.classList.add('is-active');
+    }
+
+    if (path.endsWith('professional-service.html') && href.includes('professional-service')) {
+      link.classList.add('is-active');
+    }
+
+    if (path.endsWith('room-suitability.html') && href.includes('room-suitability')) {
+      link.classList.add('is-active');
+    }
+
+    if (path.endsWith('book.html') && href.includes('book')) {
+      link.classList.add('is-active');
+    }
   });
+})();
