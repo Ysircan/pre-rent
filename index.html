@@ -7,7 +7,6 @@
 <title>RentScope</title>
 
 <style>
-/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -21,10 +20,11 @@ body {
   color: #2e2e2e;
 }
 
-/* ===== HEADER WRAPPER ===== */
+/* ===== HEADER ===== */
 .site-header {
   width: 100%;
   border-bottom: 1px solid #eee;
+  background: #faf7f2;
 }
 
 .header-inner {
@@ -33,19 +33,17 @@ body {
   padding: 14px 16px;
   display: flex;
   align-items: center;
-  gap: 24px;
 }
 
-/* ===== LOGO BLOCK ===== */
+/* ===== LOGO ===== */
 .logo-block {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0;
 }
 
 .logo-block img {
-  height: 34px;
+  height: 32px;
 }
 
 .logo-text {
@@ -57,87 +55,99 @@ body {
 .logo-name {
   font-size: 16px;
   font-weight: 800;
-  letter-spacing: -0.015em;
 }
 
 .logo-tagline {
   font-size: 12px;
-  font-weight: 500;
   color: #6a6a6a;
 }
 
-/* ===== NAV (DESKTOP) ===== */
+/* ===== DESKTOP NAV ===== */
 .main-nav {
   margin-left: auto;
   display: flex;
-  align-items: center;
   gap: 28px;
 }
 
 .nav-link {
-  font-size: 15px;
-  font-weight: 700;
   text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
   color: #2e2e2e;
-  white-space: nowrap;
 }
 
 .nav-link.is-active {
   color: #f5c400;
 }
 
-/* ===== MOBILE ===== */
+/* ===== MOBILE TOGGLE ===== */
+.menu-toggle {
+  margin-left: auto;
+  display: none;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== MOBILE MENU ===== */
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  padding: 8px 16px 16px;
+  gap: 14px;
+  border-top: 1px solid #eee;
+}
+
+.mobile-nav a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2e2e2e;
+}
+
+.mobile-nav a.is-active {
+  color: #f5c400;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .logo-block img {
-    height: 30px;
-  }
-
-  .logo-name {
-    font-size: 15px;
-  }
-
-  .logo-tagline {
-    font-size: 11px;
-  }
-
   .main-nav {
-    width: 100%;
-    margin-left: 0;
-    overflow-x: auto;
-    display: flex;
-    gap: 20px;
-    padding-bottom: 4px;
+    display: none;
   }
 
-  .main-nav::-webkit-scrollbar {
-    display: none;
+  .menu-toggle {
+    display: block;
+  }
+
+  .mobile-nav.show {
+    display: flex;
   }
 }
 </style>
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobileNav').classList.toggle('show');
+}
+</script>
 </head>
 
 <body>
 
-<!-- ===== SITE HEADER (REUSABLE) ===== -->
 <header class="site-header">
   <div class="header-inner">
 
     <!-- LOGO -->
     <div class="logo-block">
-      <img src="44bc39668252b828650b6368b4c9a0e.png" alt="RentScope Logo">
+      <img src="44bc39668252b828650b6368b4c9a0e.png" alt="RentScope">
       <div class="logo-text">
         <div class="logo-name">RentScope</div>
         <div class="logo-tagline">clear advice · practical repair</div>
       </div>
     </div>
 
-    <!-- NAV -->
+    <!-- DESKTOP NAV -->
     <nav class="main-nav">
       <a class="nav-link is-active" href="#">Home</a>
       <a class="nav-link" href="#">Minimum Standards</a>
@@ -146,12 +156,23 @@ body {
       <a class="nav-link" href="#">Book a Check</a>
     </nav>
 
+    <!-- MOBILE TOGGLE -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
   </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a class="is-active" href="#">Home</a>
+    <a href="#">Minimum Standards</a>
+    <a href="#">Professional Service</a>
+    <a href="#">Room Suitability</a>
+    <a href="#">Book a Check</a>
+  </nav>
 </header>
 
-<!-- ===== PAGE CONTENT ===== -->
 <main style="padding:40px 16px;">
-  <!-- 页面内容从这里开始 -->
+  <!-- 页面内容 -->
 </main>
 
 </body>
