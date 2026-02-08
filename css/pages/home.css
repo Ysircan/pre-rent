@@ -220,3 +220,19 @@ body{
     grid-template-columns:1fr;
   }
 }
+/* ===== Panel header mobile fix ===== */
+@media (max-width: 480px) {
+  .panel-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .panel-title {
+    width: 100%;
+  }
+
+  .panel-link {
+    margin-left: auto;
+    margin-top: 6px;
+  }
+}
