@@ -1,22 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("menuToggle");
-  const mobileNav = document.getElementById("mobileNav");
+  fetch("./partials/header.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("header-placeholder").innerHTML = html;
 
-  if (toggle && mobileNav) {
-    toggle.addEventListener("click", () => {
-      mobileNav.classList.toggle("show");
-    });
-  }
+      // ===== 原来的代码照旧 =====
 
-  // active nav highlight
-  const page = document.body.dataset.page;
-  if (!page) return;
+      const toggle = document.getElementById("menuToggle");
+      const mobileNav = document.getElementById("mobileNav");
 
-  document
-    .querySelectorAll("[data-page]")
-    .forEach(el => {
-      if (el.dataset.page === page) {
-        el.classList.add("is-active");
+      if (toggle && mobileNav) {
+        toggle.addEventListener("click", () => {
+          mobileNav.classList.toggle("show");
+        });
       }
+
+      const page = document.body.dataset.page;
+      if (!page) return;
+
+      document.querySelectorAll("[data-page]").forEach(el => {
+        if (el.dataset.page === page) {
+          el.classList.add("is-active");
+        }
+      });
     });
 });
