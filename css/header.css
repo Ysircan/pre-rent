@@ -1,0 +1,98 @@
+.site-header {
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  background: #faf7f2;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-block img {
+  height: 32px;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-name {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.logo-tagline {
+  font-size: 12px;
+  color: #6a6a6a;
+}
+
+.main-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 28px;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  color: #2e2e2e;
+}
+
+.nav-link.is-active {
+  color: #f5c400;
+}
+
+.menu-toggle {
+  margin-left: auto;
+  display: none;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  padding: 8px 16px 16px;
+  gap: 14px;
+  border-top: 1px solid #eee;
+}
+
+.mobile-nav a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2e2e2e;
+}
+
+.mobile-nav a.is-active {
+  color: #f5c400;
+}
+
+@media (max-width: 768px) {
+  .main-nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .mobile-nav.show {
+    display: flex;
+  }
+}
