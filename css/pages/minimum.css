@@ -1,0 +1,300 @@
+/* =====================================
+   MINIMUM STANDARDS — AUTHORITY HERO
+===================================== */
+
+*{box-sizing:border-box}
+
+/* =====================================
+   PAGE LOCK  (🔥 去滚轮核心)
+===================================== */
+
+body[data-page="minimum"]{
+height:100vh;
+overflow:hidden;
+
+/* ✅ 使用 navbar 的背景层级 */
+background:#ECE7DF;
+}
+
+body[data-page="minimum"] .page{
+height:calc(100vh - 80px); /* header高度 */
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+/* =====================================
+   STAGE
+===================================== */
+
+.ms-stage{
+position:relative;
+width:100%;
+height:100%;
+}
+
+/* =====================================
+   BACKGROUND WALL
+===================================== */
+
+.ms-wall{
+position:absolute;
+inset:0;
+display:flex;
+justify-content:center;
+z-index:1;
+pointer-events:none;
+}
+
+.ms-lanes{
+position:absolute;
+inset:0;
+display:flex;
+gap:26px;
+padding:120px 24px;
+max-width:1300px;
+margin:auto;
+}
+
+.ms-lane{
+flex:1;
+overflow:hidden;
+position:relative;
+}
+
+.ms-lane:nth-child(1),
+.ms-lane:nth-child(5){opacity:.35}
+
+.ms-lane:nth-child(2),
+.ms-lane:nth-child(4){opacity:.55}
+
+.ms-lane:nth-child(3){opacity:.75}
+
+.ms-inner{
+position:absolute;
+left:0;
+right:0;
+top:0;
+will-change:transform;
+}
+
+.ms-card{
+background:#f7f3ee;
+border:1px solid rgba(130,120,105,.12);
+border-radius:14px;
+padding:16px 18px;
+margin-bottom:24px;
+}
+
+.ms-tag{
+font-size:10px;
+font-weight:600;
+padding:3px 10px;
+border-radius:999px;
+margin-bottom:8px;
+display:inline-block;
+background:#ebe5dd;
+color:#7b746a;
+}
+
+.ms-ctitle{
+font-size:15px;
+font-weight:600;
+color:#2a2a2a;
+}
+
+.ms-cdesc{
+font-size:12px;
+color:#9a978f;
+margin-top:6px;
+}
+
+/* =====================================
+   CENTER PANEL (🔥 真正居中方案)
+===================================== */
+
+.ms-center{
+position:absolute;
+inset:0;
+z-index:5;
+display:flex;
+align-items:center;
+justify-content:center;
+pointer-events:none;
+}
+
+.ms-panel{
+pointer-events:auto;
+width:min(1200px,92vw);
+background:#F7F4EF;
+border-radius:22px;
+border:1px solid rgba(80,70,55,.22);
+padding:64px 92px 54px;
+box-shadow:
+0 32px 70px rgba(70,50,30,.08),
+0 1px 0 rgba(255,255,255,.7) inset;
+}
+
+/* =====================================
+   TAG SWITCH
+===================================== */
+
+.ms-switchRow{
+display:flex;
+gap:26px;
+margin-bottom:36px;
+}
+
+.ms-switch{
+font-size:18px;
+color:#8a8379;
+cursor:pointer;
+padding:10px 18px;
+border-radius:10px;
+transition:.22s;
+background:transparent;
+}
+
+.ms-switch:hover{
+color:#111;
+background:#ECE7DF;
+}
+
+.ms-switch.active{
+color:#111;
+font-weight:700;
+background:#E6E0D6;
+}
+
+/* =====================================
+   TITLE
+===================================== */
+
+.ms-titleMain{
+font-size:60px;
+font-weight:700;
+letter-spacing:-1px;
+margin-bottom:26px;
+color:#111;
+}
+
+/* =====================================
+   SIGNAL LIST
+===================================== */
+
+.ms-signals{
+padding-left:22px;
+margin:0;
+max-width:760px;
+}
+
+.ms-signals li{
+font-size:21px;
+margin-bottom:12px;
+line-height:1.6;
+color:#2b2b2b;
+}
+
+/* =====================================
+   FOOT
+===================================== */
+
+.ms-foot{
+margin-top:36px;
+padding-top:16px;
+border-top:1px solid rgba(120,110,95,.18);
+font-size:15px;
+color:#7a7369;
+}
+
+.ms-foot a{
+margin-left:14px;
+font-weight:700;
+text-decoration:none;
+color:#111;
+}
+/* ==============================
+   NAVBAR COLOR OVERRIDE
+   only for minimum page
+================================ */
+
+body[data-page="minimum"] header,
+body[data-page="minimum"] .header,
+body[data-page="minimum"] .site-header{
+  background:#ECE7DF !important;
+}
+/* =====================================
+   MINI STANDARD — SIDE TYPOGRAPHY FOG
+   (🔥 只增加，不改你现有结构)
+===================================== */
+
+.ms-typeFog{
+position:absolute;
+inset:0;
+pointer-events:none;
+z-index:2;
+
+/* 让左右计算跟你 stage 一致 */
+--stage-w:min(1200px,92vw);
+--sideW:max(0px, calc((100vw - var(--stage-w)) / 2));
+}
+
+.ms-typeCol{
+position:absolute;
+top:0;
+bottom:0;
+width:var(--sideW);
+
+padding:160px 0 80px 0;
+
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.ms-typeCol.left{
+left:-80px;
+align-items:flex-start;
+transform:rotate(-8deg);
+transform-origin:left top;
+}
+
+.ms-typeCol.right{
+right:-80px;
+align-items:flex-end;
+transform:rotate(8deg);
+transform-origin:right top;
+}
+
+.ms-typeBlock{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+/* ⭐ Mini-standard 尺寸（已经缩小版） */
+.ms-typeBig{
+font-size:clamp(48px,3vw,70px);
+font-weight:900;
+letter-spacing:6px;
+text-transform:uppercase;
+color:rgba(0,0,0,.035);
+}
+
+.ms-typeMid{
+font-size:clamp(18px,1.4vw,24px);
+font-weight:800;
+letter-spacing:3px;
+text-transform:uppercase;
+color:rgba(0,0,0,.05);
+}
+
+.ms-typeTiny{
+font-size:11px;
+font-weight:800;
+letter-spacing:1.5px;
+text-transform:uppercase;
+color:rgba(0,0,0,.07);
+}

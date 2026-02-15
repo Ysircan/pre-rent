@@ -1,22 +1,189 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RentScope</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RentScope</title>
 
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="./css/pages/minimum.css">
+
 </head>
 
 <body data-page="minimum">
-  <!-- HEADER -->
-  <div id="header-placeholder"></div>
 
-  <main class="page">
-    <p>It works.</p>
-  </main>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
-  <script src="./js/header.js"></script>
+<main class="page">
+
+<section class="ms-stage">
+
+  <!-- ⭐ SIDE TYPOGRAPHY (新加入的小尺寸背景字) -->
+  <div class="ms-typeFog">
+
+    <div class="ms-typeCol left">
+      <div class="ms-typeBlock">
+        <div class="ms-typeBig">MINIMUM</div>
+        <div class="ms-typeBig">STANDARDS</div>
+        <div class="ms-typeBig">CHECK</div>
+      </div>
+
+      <div class="ms-typeBlock">
+        <div class="ms-typeMid">HEATING</div>
+        <div class="ms-typeMid">SAFETY</div>
+        <div class="ms-typeMid">STRUCTURE</div>
+      </div>
+
+      <div class="ms-typeBlock">
+        <div class="ms-typeTiny">VIC RENTAL COMPLIANCE</div>
+      </div>
+    </div>
+
+    <div class="ms-typeCol right">
+      <div class="ms-typeBlock">
+        <div class="ms-typeBig">RENTAL</div>
+        <div class="ms-typeBig">SAFETY</div>
+        <div class="ms-typeBig">REPORT</div>
+      </div>
+
+      <div class="ms-typeBlock">
+        <div class="ms-typeMid">ALERT FLAGS</div>
+        <div class="ms-typeMid">CHECK LOG</div>
+      </div>
+
+      <div class="ms-typeBlock">
+        <div class="ms-typeTiny">PRE-LEASE INSPECTION</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ⭐ END TYPE FOG -->
+
+
+  <!-- BACKGROUND WALL -->
+  <div class="ms-wall">
+    <div class="ms-lanes" id="lanes"></div>
+  </div>
+
+  <!-- CENTER PANEL -->
+  <div class="ms-center">
+    <div class="ms-panel">
+
+      <div class="ms-switchRow">
+        <div class="ms-switch active" data-key="heating">Heating</div>
+        <div class="ms-switch" data-key="lighting">Lighting</div>
+        <div class="ms-switch" data-key="ventilation">Ventilation</div>
+        <div class="ms-switch" data-key="security">Security</div>
+      </div>
+
+      <div class="ms-titleMain" id="title"></div>
+      <ul class="ms-signals" id="signals"></ul>
+
+      <div class="ms-foot">
+        Standards define the baseline. We interpret the reality.
+        <a href="#">Official guidelines →</a>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script src="./js/header.js"></script>
+
+<script>
+
+/* ===== BACKGROUND WALL ===== */
+
+const ITEMS=[
+["Heating System","Fixed heater required"],
+["Smoke Alarm","Working alarm required"],
+["Door Locks","External doors secure"],
+["Lighting","Minimum illumination"],
+["Ventilation","Bathroom airflow"],
+["Windows","Must open safely"],
+["Switchboard","Circuit protection"],
+["Structural","Wall condition"]
+];
+
+function card(i){
+return `<div class="ms-card">
+<div class="ms-tag">inspection</div>
+<div class="ms-ctitle">${i[0]}</div>
+<div class="ms-cdesc">${i[1]}</div>
+</div>`;
+}
+
+const lanesEl=document.getElementById("lanes");
+const inners=[];
+const pos=[];
+
+for(let i=0;i<5;i++){
+const lane=document.createElement("div");
+lane.className="ms-lane";
+const inner=document.createElement("div");
+inner.className="ms-inner";
+
+let html="";
+for(let j=0;j<ITEMS.length;j++){
+html+=card(ITEMS[(j+i)%ITEMS.length]);
+}
+html+=html;
+
+inner.innerHTML=html;
+lane.appendChild(inner);
+lanesEl.appendChild(lane);
+
+inners.push(inner);
+pos.push(i%2?-200:-60);
+}
+
+const heights=inners.map(el=>el.offsetHeight/2);
+
+function animate(){
+for(let i=0;i<inners.length;i++){
+const dir=i%2?1:-1;
+pos[i]+=dir*0.18;
+if(pos[i]>0)pos[i]=-heights[i];
+if(pos[i]<-heights[i])pos[i]=0;
+inners[i].style.transform=`translate3d(0,${pos[i]}px,0)`;
+}
+requestAnimationFrame(animate);
+}
+animate();
+
+/* ===== PANEL CONTENT ===== */
+
+const DATA={
+heating:{title:"Heating signals",list:["Fixed heater presence","Cold zone coverage gaps","Unsafe placement risks"]},
+lighting:{title:"Lighting signals",list:["Adequate brightness","Dim lighting","Non-functional fixtures"]},
+ventilation:{title:"Ventilation signals",list:["Airflow path","Weak extraction","Moisture indicators"]},
+security:{title:"Security signals",list:["Door lock integrity","Window latch check","Closure alignment"]}
+};
+
+const title=document.getElementById("title");
+const signals=document.getElementById("signals");
+const switches=document.querySelectorAll(".ms-switch");
+
+function render(key){
+title.textContent=DATA[key].title;
+signals.innerHTML=DATA[key].list.map(v=>`<li>${v}</li>`).join("");
+}
+render("heating");
+
+switches.forEach(btn=>{
+btn.onclick=()=>{
+switches.forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+render(btn.dataset.key);
+};
+});
+
+</script>
+
 </body>
 </html>

@@ -1,247 +1,229 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>WHO TEST</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book · RentScope</title>
+
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/header.css">
 
 <style>
+
 body{
-  margin:0;
-  background:#f6f5f0;
-  font-family:system-ui,-apple-system,sans-serif;
-  color:#111;
+margin:0;
+background:#ECE7DF;
+font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
-/* ===== SECTION ===== */
-.section{
-  max-width:1200px;
-  margin:120px auto;
-  padding:0 20px;
+/* ================= HERO ================= */
+
+.bookHeroSection{
+background:#E6CFCF;
+padding:90px 40px;
 }
 
-.section h2{
-  font-size:36px;
-  margin-bottom:48px;
+.heroWrap{
+max-width:1100px;
+margin:0 auto;
 }
 
-/* ===== PANEL ===== */
-.panel{
-  background:#fff;
-  border-radius:20px;
-  padding:60px 48px;
-  border:1px solid #e5e3db;
+.heroPanel{
+background:#efefef;
+border-radius:22px;
+padding:70px 80px 60px;
 }
 
-/* ===== WRAP ===== */
-.wrap{
-  display:grid;
-  grid-template-columns:420px 1fr;
-  gap:70px;
-  position:relative;
+/* ⭐ 主标题加强 */
+.heroTitle{
+font-size:110px;
+font-weight:900;
+letter-spacing:-4px;
+margin:0 0 28px 0;
+color:#111;
+line-height:1;
 }
 
-.wrap:before{
-  content:"";
-  position:absolute;
-  left:420px;
-  top:0;
-  bottom:0;
-  width:1px;
-  background:#ece9e0;
+.ctaBtn{
+display:inline-block;
+background:#F5B400;
+padding:18px 34px;
+font-weight:900;
+text-decoration:none;
+color:#111;
+border:4px solid #111;
+box-shadow:8px 8px 0 #111;
+cursor:pointer;
 }
 
-/* ===== LEFT ===== */
-.left{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.entryOptions{
+margin-top:34px;
+display:flex;
+gap:18px;
+flex-wrap:wrap;
+opacity:0;
+transform:translateY(-6px);
+pointer-events:none;
+transition:.25s ease;
 }
 
-#leftText{
-  font-size:26px;
-  line-height:1.5;
-  font-weight:600;
-  color:#111;
-  max-width:340px;
-  transition:opacity .25s ease;
+.entryOptions.show{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
 }
 
-/* ===== ITEMS ===== */
-.item{
-  position:relative;
-  padding:34px 0;
-  border-top:1px solid #e8e5db;
-  transition:.35s ease;
-  cursor:pointer;
+.entryBtn{
+background:#fff;
+padding:14px 22px;
+border-radius:14px;
+border:3px solid #111;
+box-shadow:5px 5px 0 #111;
+font-weight:800;
+text-decoration:none;
+color:#111;
 }
 
-.item:hover{
-  transform:translateX(4px);
+/* ================= SUPPORT AREA ================= */
+
+.supportSection{
+padding:60px 40px 90px;
 }
 
-.num{
-  position:absolute;
-  left:-46px;
-  top:36px;
-  font-size:16px;
-  font-weight:600;
-  opacity:.14;
+.supportWrap{
+max-width:1100px;
+margin:0 auto;
 }
 
-.tag{
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.08em;
-  padding:4px 10px;
-  border-radius:999px;
-  border:1px solid #e8e5db;
-  background:#fff;
+.supportPanel{
+background:#F3EFE9;
+border-radius:22px;
+padding:50px 60px;
+display:flex;
+flex-direction:column;
+gap:30px;
 }
 
-.item:hover .tag{
-  border-color:#f5c400;
-  background:#f5c40012;
+/* ⭐ 主标题加强 */
+.supportTitle{
+font-size:48px;
+font-weight:900;
+letter-spacing:-1px;
+margin:0;
+color:#111;
 }
 
-.item h3{
-  margin:10px 0 4px;
-  font-size:24px;
+.supportGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:28px;
 }
 
-.lead{
-  color:#666;
-  margin-bottom:12px;
+.supportItem{
+font-size:18px;
+line-height:1.6;
 }
 
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  opacity:0;
-  transform:translateY(6px);
-  transition:.35s ease;
+.supportItem b{
+font-size:22px;
+margin-right:8px;
+font-weight:900;
 }
 
-.chips span{
-  font-size:13px;
-  padding:6px 12px;
-  border-radius:999px;
-  border:1px solid #eee9df;
-  background:#ffffffaa;
+.supportNote{
+font-size:15px;
+color:#444;
+margin-top:10px;
 }
 
-.item:hover .chips{
-  opacity:1;
-  transform:none;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:900px){
-  .wrap{
-    grid-template-columns:1fr;
-    gap:40px;
-  }
-  .wrap:before{display:none}
-  .num{display:none}
-  #leftText{
-    text-align:center;
-  }
-}
 </style>
 </head>
 
-<body>
+<body data-page="book">
 
-<section class="section">
+<div id="header-placeholder"></div>
 
-<h2>Who Is This For</h2>
+<main class="page">
 
-<div class="panel">
+<!-- ================= HERO ================= -->
 
-<div class="wrap">
+<section class="bookHeroSection">
+<div class="heroWrap">
 
-<div class="left">
-<p id="leftText">
-We’re here for the moments before you commit to a rental.
-</p>
+<div class="heroPanel">
+
+<h1 class="heroTitle">BOOK TODAY</h1>
+
+<div class="ctaBtn" id="openEntry">
+Choose Booking Method →
 </div>
 
-<div class="right">
-
-<div class="item"
-data-text="Planning to rent before arriving? A local eye helps you see what photos miss.">
-<span class="num">01</span>
-<span class="tag">REMOTE</span>
-<h3>Not in Melbourne yet</h3>
-<p class="lead">Planning to rent before arriving.</p>
-
-<div class="chips">
-<span>Listing photos only</span>
-<span>Unsure layout</span>
-<span>Need local view</span>
-</div>
-</div>
-
-<div class="item"
-data-text="First time renting? Understanding risk early makes decisions calmer.">
-<span class="num">02</span>
-<span class="tag">FIRST RENTAL</span>
-<h3>New to renting</h3>
-<p class="lead">Not sure what to check during inspections.</p>
-
-<div class="chips">
-<span>First inspection</span>
-<span>Unsure risks</span>
-<span>Need checklist</span>
-</div>
-</div>
-
-<div class="item"
-data-text="Already inspected but still unsure? A calm second opinion can clarify the picture.">
-<span class="num">03</span>
-<span class="tag">SECOND OPINION</span>
-<h3>Seen the place, still unsure</h3>
-<p class="lead">Something feels off but hard to explain.</p>
-
-<div class="chips">
-<span>Agent pressure</span>
-<span>Layout feels strange</span>
-<span>Want clarity</span>
-</div>
+<div class="entryOptions" id="entryOptions">
+<a href="#" class="entryBtn">WhatsApp</a>
+<a href="#" class="entryBtn">WeChat</a>
+<a href="#" class="entryBtn">Booking Form</a>
 </div>
 
 </div>
-
 </div>
-
-</div>
-
 </section>
 
+<!-- ================= WHAT YOU GET ================= -->
+
+<section class="supportSection">
+<div class="supportWrap">
+
+<div class="supportPanel">
+
+<h2 class="supportTitle">What You Get</h2>
+
+<div class="supportGrid">
+
+<div class="supportItem">
+<b>01</b> Minimum standards quick scan
+<div class="supportNote">
+Quick visual pass based on Victorian minimum rental expectations.
+</div>
+</div>
+
+<div class="supportItem">
+<b>02</b> Room suitability insights
+<div class="supportNote">
+Understand if the space actually fits daily living before signing.
+</div>
+</div>
+
+<div class="supportItem">
+<b>03</b> Visible risk notes
+<div class="supportNote">
+Spot early warning signs renters often overlook during inspections.
+</div>
+</div>
+
+<div class="supportItem">
+<b>04</b> Independent second opinion
+<div class="supportNote">
+A neutral perspective without agency pressure.
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<script src="./js/header.js"></script>
+
 <script>
-const items = document.querySelectorAll(".item");
-const leftText = document.getElementById("leftText");
+const btn = document.getElementById("openEntry");
+const panel = document.getElementById("entryOptions");
 
-const defaultText = leftText.innerText;
-
-items.forEach(item=>{
-  item.addEventListener("mouseenter",()=>{
-    leftText.style.opacity = 0;
-    setTimeout(()=>{
-      leftText.innerText = item.dataset.text;
-      leftText.style.opacity = 1;
-    },120);
-  });
-
-  item.addEventListener("mouseleave",()=>{
-    leftText.style.opacity = 0;
-    setTimeout(()=>{
-      leftText.innerText = defaultText;
-      leftText.style.opacity = 1;
-    },120);
-  });
-});
+btn.onclick = ()=>{
+panel.classList.toggle("show");
+};
 </script>
 
 </body>

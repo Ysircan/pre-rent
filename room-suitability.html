@@ -1,24 +1,217 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Room Suitability · RentScope</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Room Suitability · RentScope</title>
 
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="./css/pages/room.css">
+
 </head>
 
 <body data-page="room">
 
-  <!-- HEADER -->
-  <div id="header-placeholder"></div>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
-  <main class="page">
-    <h1>Room Suitability</h1>
-    <p>Room suitability page works.</p>
-  </main>
+<main class="page">
 
-  <script src="./js/header.js"></script>
+<div class="heroGoal">
+Reduce “looks fine in photos” mistakes before you sign.
+</div>
+
+<div class="panel">
+<div class="layout">
+
+<!-- LEFT SIDE -->
+<div class="left">
+
+<div class="headRow">
+<div>
+<div class="kicker">Suitability</div>
+<div class="frame">Room suitability is often misunderstood before moving in.</div>
+<div class="lead">Most renters underestimate space. Start by placing a bed.</div>
+<div class="sub">Quick visual sanity-check — drag items to estimate walkable space.</div>
+</div>
+<div class="miniMeta">
+<div class="pill">Scale: 1 grid = 0.5m</div>
+<div class="pill" id="metaArea">Area —</div>
+</div>
+</div>
+
+<div class="scale">Drag items inside the grid</div>
+
+<div class="gridWrap">
+<div id="grid" class="grid"></div>
+</div>
+
+<div class="hintRow">
+<div class="hint">Tip: Place the bed first.</div>
+<button class="ghostBtn" id="resetBtn">Reset</button>
+</div>
+
+<div class="boundary">
+Layouts here are simplified. Real properties vary.
+</div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="rightPanel">
+
+<div class="listPanel">
+<button data-key="room" class="sectionBtn active">Room</button>
+<button data-key="bed" class="sectionBtn">Bed</button>
+<button data-key="desk" class="sectionBtn">Desk</button>
+<button data-key="wardrobe" class="sectionBtn">Wardrobe</button>
+<button data-key="chair" class="sectionBtn">Chair</button>
+<button data-key="sofa" class="sectionBtn">Sofa</button>
+</div>
+
+<div id="editorPanel" class="editPanel"></div>
+
+<div class="summaryPanel">
+<div class="title">Current Sizes</div>
+<div id="summaryList"></div>
+</div>
+
+</div>
+</div>
+</div>
+
+</main>
+
+<script src="./js/header.js"></script>
+
+<script>
+const SCALE_M=0.5;
+const CELL_PX=90;
+
+const grid=document.getElementById("grid");
+const editorPanel=document.getElementById("editorPanel");
+const summaryList=document.getElementById("summaryList");
+const metaArea=document.getElementById("metaArea");
+
+let active="room";
+
+let sizes={
+room:{w:3,h:3},
+bed:{w:1.5,h:2},
+desk:{w:1.2,h:0.6},
+wardrobe:{w:1.5,h:0.6},
+chair:{w:0.5,h:0.5},
+sofa:{w:1.4,h:0.8}
+};
+
+let objects={};
+
+document.querySelectorAll(".sectionBtn").forEach(btn=>{
+btn.onclick=()=>{
+document.querySelectorAll(".sectionBtn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+active=btn.dataset.key;
+renderEditor();
+};
+});
+
+function renderEditor(){
+editorPanel.innerHTML="";
+
+if(active==="room"){
+editorPanel.innerHTML=`
+<div class="title">Room Size</div>
+Width (m)<input id="objW" value="${sizes.room.w}">
+Height (m)<input id="objH" value="${sizes.room.h}">
+<button id="applyObj" class="apply">Apply Size</button>`;
+}else{
+editorPanel.innerHTML=`
+<div class="title">${active.toUpperCase()} Size</div>
+Width (m)<input id="objW" value="${sizes[active].w}">
+Length (m)<input id="objH" value="${sizes[active].h}">
+<button id="applyObj" class="apply">Apply Size</button>`;
+if(!objects[active]) createObject(active);
+}
+
+document.getElementById("applyObj").onclick=applySize;
+}
+
+function applySize(){
+const w=parseFloat(objW.value);
+const h=parseFloat(objH.value);
+sizes[active]={w,h};
+
+if(active==="room"){
+grid.style.width=Math.floor(w/SCALE_M)*CELL_PX+"px";
+grid.style.height=Math.floor(h/SCALE_M)*CELL_PX+"px";
+metaArea.textContent=`Area ${(w*h).toFixed(2)} m²`;
+}else{
+const el=objects[active];
+el.style.width=(w/SCALE_M)*CELL_PX+"px";
+el.style.height=(h/SCALE_M)*CELL_PX+"px";
+}
+
+updateSummary();
+}
+
+function createObject(type){
+const el=document.createElement("div");
+el.className="block "+type;
+el.textContent=type.toUpperCase();
+el.style.width=(sizes[type].w/SCALE_M)*CELL_PX+"px";
+el.style.height=(sizes[type].h/SCALE_M)*CELL_PX+"px";
+el.style.left="20px";
+el.style.top="20px";
+makeDrag(el);
+grid.appendChild(el);
+objects[type]=el;
+}
+
+function makeDrag(el){
+let offsetX=0,offsetY=0;
+el.onmousedown=e=>{
+const rect=el.getBoundingClientRect();
+offsetX=e.clientX-rect.left;
+offsetY=e.clientY-rect.top;
+document.onmousemove=ev=>{
+const gridRect=grid.getBoundingClientRect();
+el.style.left=(ev.clientX-gridRect.left-offsetX)+"px";
+el.style.top=(ev.clientY-gridRect.top-offsetY)+"px";
+};
+document.onmouseup=()=>{document.onmousemove=null;}
+};
+}
+
+function updateSummary(){
+summaryList.innerHTML="";
+Object.keys(sizes).forEach(key=>{
+const s=sizes[key];
+summaryList.innerHTML+=`
+<div class="summaryItem">
+<span>${key}</span>
+<span>${s.w}m × ${s.h}m</span>
+</div>`;
+});
+}
+
+document.getElementById("resetBtn").onclick=()=>{
+Object.values(objects).forEach(el=>el.remove());
+objects={};
+active="room";
+document.querySelectorAll(".sectionBtn").forEach(b=>b.classList.remove("active"));
+document.querySelector('.sectionBtn[data-key="room"]').classList.add("active");
+renderEditor();
+updateSummary();
+};
+
+grid.style.width=Math.floor(sizes.room.w/SCALE_M)*CELL_PX+"px";
+grid.style.height=Math.floor(sizes.room.h/SCALE_M)*CELL_PX+"px";
+metaArea.textContent=`Area ${(sizes.room.w*sizes.room.h).toFixed(2)} m²`;
+
+renderEditor();
+updateSummary();
+</script>
+
 </body>
 </html>
