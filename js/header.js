@@ -4,8 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(html => {
       document.getElementById("header-placeholder").innerHTML = html;
 
-      // ===== 原来的代码照旧 =====
-
+      // ===== HEADER MENU =====
       const toggle = document.getElementById("menuToggle");
       const mobileNav = document.getElementById("mobileNav");
 
@@ -15,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
+      // ===== ACTIVE NAV =====
       const page = document.body.dataset.page;
       if (!page) return;
 
@@ -24,4 +24,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+});
+
+
+/* ===== WHO SECTION HOVER (独立模块) ===== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const whoSection = document.querySelector(".who");
+  if (!whoSection) return; // 不是首页直接退出
+
+  const items = whoSection.querySelectorAll(".item");
+  const leftText = whoSection.querySelector("#leftText");
+
+  if (!items.length || !leftText) return;
+
+  const defaultText = leftText.innerText;
+
+  items.forEach(item => {
+
+    item.addEventListener("mouseenter", () => {
+      leftText.style.opacity = 0;
+
+      setTimeout(() => {
+        leftText.innerText = item.dataset.text;
+        leftText.style.opacity = 1;
+      }, 120);
+    });
+
+    item.addEventListener("mouseleave", () => {
+      leftText.style.opacity = 0;
+
+      setTimeout(() => {
+        leftText.innerText = defaultText;
+        leftText.style.opacity = 1;
+      }, 120);
+    });
+
+  });
+
 });

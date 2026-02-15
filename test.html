@@ -1,31 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>What We Check</title>
+<title>WHO TEST</title>
 
 <style>
-:root{
-  --bg: #f6f5f0;
-  --panel: #ffffff;
-  --ink: #111;
-  --muted: #666;
-  --line: #e5e3db;
-  --accent: #f5c400;
-}
-
-*{box-sizing:border-box}
 body{
   margin:0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background:var(--bg);
-  color:var(--ink);
+  background:#f6f5f0;
+  font-family:system-ui,-apple-system,sans-serif;
+  color:#111;
 }
 
+/* ===== SECTION ===== */
 .section{
   max-width:1200px;
-  margin:80px auto;
+  margin:120px auto;
   padding:0 20px;
 }
 
@@ -34,82 +25,127 @@ body{
   margin-bottom:48px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:28px;
-}
-
+/* ===== PANEL ===== */
 .panel{
-  background:var(--panel);
+  background:#fff;
   border-radius:20px;
-  padding:28px;
-  border:1px solid var(--line);
+  padding:60px 48px;
+  border:1px solid #e5e3db;
 }
 
-/* ✅ 修复点开始 */
-.panel-header{
+/* ===== WRAP ===== */
+.wrap{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:70px;
+  position:relative;
+}
+
+.wrap:before{
+  content:"";
+  position:absolute;
+  left:420px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#ece9e0;
+}
+
+/* ===== LEFT ===== */
+.left{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin-bottom:24px;
-  gap:16px;
+  justify-content:center;
 }
 
-.panel-title{
-  font-size:22px;
-  font-weight:700;
-  line-height:1.25;
-  white-space:nowrap;
-  flex-shrink:0;
+#leftText{
+  font-size:26px;
+  line-height:1.5;
+  font-weight:600;
+  color:#111;
+  max-width:340px;
+  transition:opacity .25s ease;
 }
 
-.panel-link{
-  font-size:14px;
-  color:var(--ink);
-  text-decoration:none;
-  border-bottom:2px solid var(--accent);
-  flex-shrink:0;
+/* ===== ITEMS ===== */
+.item{
+  position:relative;
+  padding:34px 0;
+  border-top:1px solid #e8e5db;
+  transition:.35s ease;
+  cursor:pointer;
 }
 
-.cards{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
+.item:hover{
+  transform:translateX(4px);
 }
 
-.card{
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:18px;
-  background:#fff;
+.num{
+  position:absolute;
+  left:-46px;
+  top:36px;
+  font-size:16px;
+  font-weight:600;
+  opacity:.14;
 }
 
 .tag{
-  display:inline-block;
   font-size:11px;
-  font-weight:600;
-  padding:4px 8px;
+  font-weight:700;
+  letter-spacing:.08em;
+  padding:4px 10px;
   border-radius:999px;
-  background:#f0efe9;
-  margin-bottom:10px;
+  border:1px solid #e8e5db;
+  background:#fff;
 }
 
-.card-title{
-  font-size:16px;
-  font-weight:600;
-  margin-bottom:6px;
+.item:hover .tag{
+  border-color:#f5c400;
+  background:#f5c40012;
 }
 
-.card-desc{
-  font-size:14px;
-  color:var(--muted);
+.item h3{
+  margin:10px 0 4px;
+  font-size:24px;
 }
 
-/* mobile */
-@media (max-width:900px){
-  .grid{
+.lead{
+  color:#666;
+  margin-bottom:12px;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  opacity:0;
+  transform:translateY(6px);
+  transition:.35s ease;
+}
+
+.chips span{
+  font-size:13px;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid #eee9df;
+  background:#ffffffaa;
+}
+
+.item:hover .chips{
+  opacity:1;
+  transform:none;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .wrap{
     grid-template-columns:1fr;
+    gap:40px;
+  }
+  .wrap:before{display:none}
+  .num{display:none}
+  #leftText{
+    text-align:center;
   }
 }
 </style>
@@ -118,96 +154,95 @@ body{
 <body>
 
 <section class="section">
-  <h2>What We Check Before You Rent</h2>
 
-  <div class="grid">
+<h2>Who Is This For</h2>
 
-    <!-- Minimum Standards -->
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-title">Minimum Standards</div>
-        <a class="panel-link" href="#">View details →</a>
-      </div>
+<div class="panel">
 
-      <div class="cards">
-        <div class="card">
-          <div class="tag">MINIMUM</div>
-          <div class="card-title">Heating & Ventilation</div>
-          <div class="card-desc">Legal minimum requirement</div>
-        </div>
+<div class="wrap">
 
-        <div class="card">
-          <div class="tag">MINIMUM</div>
-          <div class="card-title">Electrical Safety</div>
-          <div class="card-desc">Power points & switches</div>
-        </div>
+<div class="left">
+<p id="leftText">
+We’re here for the moments before you commit to a rental.
+</p>
+</div>
 
-        <div class="card">
-          <div class="tag">MINIMUM</div>
-          <div class="card-title">Water & Sanitation</div>
-          <div class="card-desc">Basic living facilities</div>
-        </div>
-      </div>
-    </div>
+<div class="right">
 
-    <!-- Professional -->
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-title">Professional Service</div>
-        <a class="panel-link" href="#">View details →</a>
-      </div>
+<div class="item"
+data-text="Planning to rent before arriving? A local eye helps you see what photos miss.">
+<span class="num">01</span>
+<span class="tag">REMOTE</span>
+<h3>Not in Melbourne yet</h3>
+<p class="lead">Planning to rent before arriving.</p>
 
-      <div class="cards">
-        <div class="card">
-          <div class="tag">PROFESSIONAL</div>
-          <div class="card-title">Moisture & Mould Risk</div>
-          <div class="card-desc">Experience-based judgement</div>
-        </div>
+<div class="chips">
+<span>Listing photos only</span>
+<span>Unsure layout</span>
+<span>Need local view</span>
+</div>
+</div>
 
-        <div class="card">
-          <div class="tag">PROFESSIONAL</div>
-          <div class="card-title">Wear & Workmanship</div>
-          <div class="card-desc">Beyond surface appearance</div>
-        </div>
+<div class="item"
+data-text="First time renting? Understanding risk early makes decisions calmer.">
+<span class="num">02</span>
+<span class="tag">FIRST RENTAL</span>
+<h3>New to renting</h3>
+<p class="lead">Not sure what to check during inspections.</p>
 
-        <div class="card">
-          <div class="tag">PROFESSIONAL</div>
-          <div class="card-title">Ventilation & Airflow</div>
-          <div class="card-desc">Long-term comfort check</div>
-        </div>
-      </div>
-    </div>
+<div class="chips">
+<span>First inspection</span>
+<span>Unsure risks</span>
+<span>Need checklist</span>
+</div>
+</div>
 
-    <!-- Suitability -->
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-title">Room Suitability</div>
-        <a class="panel-link" href="#">View details →</a>
-      </div>
+<div class="item"
+data-text="Already inspected but still unsure? A calm second opinion can clarify the picture.">
+<span class="num">03</span>
+<span class="tag">SECOND OPINION</span>
+<h3>Seen the place, still unsure</h3>
+<p class="lead">Something feels off but hard to explain.</p>
 
-      <div class="cards">
-        <div class="card">
-          <div class="tag">SUITABLE</div>
-          <div class="card-title">Room Size & Layout</div>
-          <div class="card-desc">Daily use practicality</div>
-        </div>
+<div class="chips">
+<span>Agent pressure</span>
+<span>Layout feels strange</span>
+<span>Want clarity</span>
+</div>
+</div>
 
-        <div class="card">
-          <div class="tag">SUITABLE</div>
-          <div class="card-title">Natural Light & Privacy</div>
-          <div class="card-desc">Real living experience</div>
-        </div>
+</div>
 
-        <div class="card">
-          <div class="tag">SUITABLE</div>
-          <div class="card-title">Noise & Surroundings</div>
-          <div class="card-desc">Lifestyle suitability</div>
-        </div>
-      </div>
-    </div>
+</div>
 
-  </div>
+</div>
+
 </section>
+
+<script>
+const items = document.querySelectorAll(".item");
+const leftText = document.getElementById("leftText");
+
+const defaultText = leftText.innerText;
+
+items.forEach(item=>{
+  item.addEventListener("mouseenter",()=>{
+    leftText.style.opacity = 0;
+    setTimeout(()=>{
+      leftText.innerText = item.dataset.text;
+      leftText.style.opacity = 1;
+    },120);
+  });
+
+  item.addEventListener("mouseleave",()=>{
+    leftText.style.opacity = 0;
+    setTimeout(()=>{
+      leftText.innerText = defaultText;
+      leftText.style.opacity = 1;
+    },120);
+  });
+});
+</script>
 
 </body>
 </html>

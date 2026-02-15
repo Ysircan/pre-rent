@@ -236,3 +236,141 @@ body{
     margin-top: 6px;
   }
 }
+/* ===== WHO SECTION ===== */
+
+.section.who{
+  margin:120px auto;
+}
+
+
+.who .wrap{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:70px;
+  position:relative;
+  width:100%;
+
+}
+
+/* vertical line */
+.who .wrap:before{
+  content:"";
+  position:absolute;
+  left:420px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#ece9e0;
+}
+
+/* LEFT */
+.who .left h2{
+  font-size:42px;
+  margin-bottom:16px;
+}
+
+.who .left{
+  display:flex;
+  align-items:center;
+}
+
+.who #leftText{
+  font-size:22px;
+  font-weight:500;
+  line-height:1.5;
+  color:#222;
+  max-width:320px;
+  transition:opacity .25s ease;
+}
+
+/* ITEMS */
+.who .item{
+  position:relative;
+  padding:34px 0;
+  border-top:1px solid var(--line);
+  transition:.35s ease;
+}
+
+.who .item:hover{
+  transform:translateX(4px);
+}
+
+/* STEP NUMBER */
+.who .num{
+  position:absolute;
+  left:-46px;
+  top:36px;
+  font-size:16px;
+  font-weight:600;
+  color:#000;
+  opacity:.14;
+}
+
+/* TAG */
+.who .item .tag{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+  transition:.25s ease;
+}
+
+.who .item:hover .tag{
+  border-color:var(--accent);
+  background:#f5c40012;
+}
+
+/* TITLE */
+.who .item h3{
+  margin:10px 0 4px;
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+}
+
+/* LEAD */
+.who .lead{
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+/* CHIPS */
+.who .chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  opacity:0;
+  transform:translateY(6px);
+  transition:.35s ease;
+}
+
+.who .chips span{
+  font-size:13px;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid #eee9df;
+  background:#ffffffaa;
+  color:#333;
+}
+
+.who .item:hover .chips{
+  opacity:1;
+  transform:none;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+  .who .wrap{
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+  .who .wrap:before{display:none}
+  .who .num{display:none}
+}
+/* ===== FIX WHO TITLE GAP ===== */
+.section + .section.who{
+  margin-top:-40px;
+}
