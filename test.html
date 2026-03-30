@@ -2,229 +2,263 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book · RentScope</title>
-
-<link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/header.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Professional · RentScope</title>
 
 <style>
 
+/* ===============================
+RESET
+================================ */
+
+*{box-sizing:border-box;}
+
 body{
 margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 background:#ECE7DF;
-font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+color:#111;
+overflow:hidden;
 }
 
-/* ================= HERO ================= */
+/* ===============================
+LAYOUT
+================================ */
 
-.bookHeroSection{
-background:#E6CFCF;
-padding:90px 40px;
-}
-
-.heroWrap{
-max-width:1100px;
+.page{
+height:100vh;
+max-width:1250px;
 margin:0 auto;
-}
-
-.heroPanel{
-background:#efefef;
-border-radius:22px;
-padding:70px 80px 60px;
-}
-
-/* ⭐ 主标题加强 */
-.heroTitle{
-font-size:110px;
-font-weight:900;
-letter-spacing:-4px;
-margin:0 0 28px 0;
-color:#111;
-line-height:1;
-}
-
-.ctaBtn{
-display:inline-block;
-background:#F5B400;
-padding:18px 34px;
-font-weight:900;
-text-decoration:none;
-color:#111;
-border:4px solid #111;
-box-shadow:8px 8px 0 #111;
-cursor:pointer;
-}
-
-.entryOptions{
-margin-top:34px;
-display:flex;
-gap:18px;
-flex-wrap:wrap;
-opacity:0;
-transform:translateY(-6px);
-pointer-events:none;
-transition:.25s ease;
-}
-
-.entryOptions.show{
-opacity:1;
-transform:translateY(0);
-pointer-events:auto;
-}
-
-.entryBtn{
-background:#fff;
-padding:14px 22px;
-border-radius:14px;
-border:3px solid #111;
-box-shadow:5px 5px 0 #111;
-font-weight:800;
-text-decoration:none;
-color:#111;
-}
-
-/* ================= SUPPORT AREA ================= */
-
-.supportSection{
-padding:60px 40px 90px;
-}
-
-.supportWrap{
-max-width:1100px;
-margin:0 auto;
-}
-
-.supportPanel{
-background:#F3EFE9;
-border-radius:22px;
-padding:50px 60px;
+padding:80px 20px;
 display:flex;
 flex-direction:column;
-gap:30px;
+justify-content:space-between;
 }
 
-/* ⭐ 主标题加强 */
-.supportTitle{
-font-size:48px;
+/* ===============================
+TITLE
+================================ */
+
+.heroBlock{
+margin-bottom:30px;
+}
+
+.heroSmall{
+font-size:12px;
+letter-spacing:2px;
+color:#8B857D;
+margin-bottom:12px;
+}
+
+.heroTitle{
+font-size:84px; /* ⭐ 更大气 */
 font-weight:900;
-letter-spacing:-1px;
-margin:0;
-color:#111;
+margin:0 0 12px;
 }
 
-.supportGrid{
+.heroSub{
+font-size:18px;
+color:#6C655E;
+}
+
+/* ===============================
+MASTER STAGE（⭐核心改动）
+================================ */
+
+.stage{
+display:flex;
+flex-direction:column;
+gap:18px; /* ⭐ 拉近split和panel */
+}
+
+/* ===============================
+SPLIT HERO（舞台）
+================================ */
+
+.splitHero{
+height:340px; /* ⭐ 更高 */
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:28px;
+border-radius:34px;
+overflow:hidden;
+box-shadow:0 35px 70px rgba(70,50,30,.08);
 }
 
-.supportItem{
-font-size:18px;
-line-height:1.6;
+.splitLeft{
+background:#CFC8BE;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:70px;
 }
 
-.supportItem b{
-font-size:22px;
-margin-right:8px;
+.splitRight{
+background:#F6F3EE;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:70px;
+}
+
+.splitLabel{
+font-size:11px;
+letter-spacing:2px;
+color:#8B857D;
+margin-bottom:16px;
+}
+
+.splitText{
+font-size:32px;
 font-weight:900;
+line-height:1.4;
+max-width:360px;
 }
 
-.supportNote{
+/* ===============================
+SIGNALS（压进舞台）
+================================ */
+
+.proPanel{
+background:#F4F0EA;
+border-radius:26px;
+border:1px solid rgba(80,70,55,.18);
+padding:34px 40px;
+}
+
+.proTag{
+font-size:11px;
+letter-spacing:2px;
+color:#8B857D;
+margin-bottom:10px;
+}
+
+.proTitle{
+font-size:38px;
+font-weight:900;
+margin:0 0 22px;
+}
+
+.proGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+.proItem{
+height:78px;
+background:#ECE7DF;
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
 font-size:15px;
-color:#444;
-margin-top:10px;
+font-weight:700;
+color:#3A3733;
+}
+
+/* ===============================
+CLOSING
+================================ */
+
+.closing{
+text-align:center;
+margin-top:8px;
+}
+
+.closingText{
+font-size:38px;
+font-weight:900;
+letter-spacing:-.3px;
+}
+
+/* ===============================
+RESPONSIVE
+================================ */
+
+@media(max-width:900px){
+
+.heroTitle{font-size:48px;}
+
+.splitHero{
+grid-template-columns:1fr;
+height:auto;
+}
+
+.proGrid{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
 </head>
 
-<body data-page="book">
-
-<div id="header-placeholder"></div>
+<body>
 
 <main class="page">
 
-<!-- ================= HERO ================= -->
-
-<section class="bookHeroSection">
-<div class="heroWrap">
-
-<div class="heroPanel">
-
-<h1 class="heroTitle">BOOK TODAY</h1>
-
-<div class="ctaBtn" id="openEntry">
-Choose Booking Method →
+<!-- TITLE -->
+<div class="heroBlock">
+<div class="heroSmall">BEYOND COMPLIANCE</div>
+<h1 class="heroTitle">Professional</h1>
+<div class="heroSub">A different way of seeing.</div>
 </div>
 
-<div class="entryOptions" id="entryOptions">
-<a href="#" class="entryBtn">WhatsApp</a>
-<a href="#" class="entryBtn">WeChat</a>
-<a href="#" class="entryBtn">Booking Form</a>
+<!-- ⭐ MASTER STAGE -->
+<div class="stage">
+
+<!-- SPLIT HERO -->
+<div class="splitHero">
+
+<div class="splitLeft">
+<div>
+<div class="splitLabel">STANDARD VIEWING</div>
+<div class="splitText">
+Looks fine in photos.<br>
+Quick walkthrough.
 </div>
-
-</div>
-</div>
-</section>
-
-<!-- ================= WHAT YOU GET ================= -->
-
-<section class="supportSection">
-<div class="supportWrap">
-
-<div class="supportPanel">
-
-<h2 class="supportTitle">What You Get</h2>
-
-<div class="supportGrid">
-
-<div class="supportItem">
-<b>01</b> Minimum standards quick scan
-<div class="supportNote">
-Quick visual pass based on Victorian minimum rental expectations.
 </div>
 </div>
 
-<div class="supportItem">
-<b>02</b> Room suitability insights
-<div class="supportNote">
-Understand if the space actually fits daily living before signing.
+<div class="splitRight">
+<div>
+<div class="splitLabel">PROFESSIONAL MODE</div>
+<div class="splitText">
+Signals beyond standards.<br>
+Reading what others miss.
 </div>
-</div>
-
-<div class="supportItem">
-<b>03</b> Visible risk notes
-<div class="supportNote">
-Spot early warning signs renters often overlook during inspections.
-</div>
-</div>
-
-<div class="supportItem">
-<b>04</b> Independent second opinion
-<div class="supportNote">
-A neutral perspective without agency pressure.
 </div>
 </div>
 
 </div>
 
+<!-- PANEL -->
+<div class="proPanel">
+<div class="proTag">PROFESSIONAL MODE</div>
+<h2 class="proTitle">Signals beyond standards</h2>
+
+<div class="proGrid">
+<div class="proItem">subtle airflow behaviour</div>
+<div class="proItem">wear vs defect distinction</div>
+<div class="proItem">fixture placement friction</div>
+<div class="proItem">heating coverage logic</div>
+<div class="proItem">space usability signals</div>
+<div class="proItem">compliance edge cases</div>
 </div>
 </div>
-</section>
+
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+<div class="closingText">
+We don’t inspect more — we read differently.
+</div>
+</div>
 
 </main>
-
-<script src="./js/header.js"></script>
-
-<script>
-const btn = document.getElementById("openEntry");
-const panel = document.getElementById("entryOptions");
-
-btn.onclick = ()=>{
-panel.classList.toggle("show");
-};
-</script>
 
 </body>
 </html>

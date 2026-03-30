@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("./partials/header.html")
-    .then(res => res.text())
+  const placeholder = document.getElementById("header-placeholder");
+  if (!placeholder) return;
+
+  fetch("/partials/header.html")
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`Failed to load header: ${res.status}`);
+      }
+      return res.text();
+    })
     .then(html => {
-      document.getElementById("header-placeholder").innerHTML = html;
+      placeholder.innerHTML = html;
 
       // ===== HEADER MENU =====
       const toggle = document.getElementById("menuToggle");
@@ -23,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
           el.classList.add("is-active");
         }
       });
+    })
+    .catch(err => {
+      console.error(err);
     });
 });
 

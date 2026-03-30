@@ -1,89 +1,82 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>RentScope</title>
+<title>最低标准检查 · RentScope</title>
 
-<link rel="stylesheet" href="./css/base.css">
-<link rel="stylesheet" href="./css/header.css">
-<link rel="stylesheet" href="./css/pages/minimum.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/pages/minimum.css">
 
 </head>
 
 <body data-page="minimum">
 
-<!-- HEADER -->
-<div id="header-placeholder"></div>
-
 <main class="page">
 
 <section class="ms-stage">
 
-  <!-- ⭐ SIDE TYPOGRAPHY (新加入的小尺寸背景字) -->
   <div class="ms-typeFog">
 
     <div class="ms-typeCol left">
       <div class="ms-typeBlock">
-        <div class="ms-typeBig">MINIMUM</div>
-        <div class="ms-typeBig">STANDARDS</div>
-        <div class="ms-typeBig">CHECK</div>
+        <div class="ms-typeBig">最低</div>
+        <div class="ms-typeBig">标准</div>
+        <div class="ms-typeBig">检查</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeMid">HEATING</div>
-        <div class="ms-typeMid">SAFETY</div>
-        <div class="ms-typeMid">STRUCTURE</div>
+        <div class="ms-typeMid">供暖</div>
+        <div class="ms-typeMid">安全</div>
+        <div class="ms-typeMid">结构</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeTiny">VIC RENTAL COMPLIANCE</div>
+        <div class="ms-typeTiny">维州租赁合规</div>
       </div>
     </div>
 
     <div class="ms-typeCol right">
       <div class="ms-typeBlock">
-        <div class="ms-typeBig">RENTAL</div>
-        <div class="ms-typeBig">SAFETY</div>
-        <div class="ms-typeBig">REPORT</div>
+        <div class="ms-typeBig">租房</div>
+        <div class="ms-typeBig">安全</div>
+        <div class="ms-typeBig">报告</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeMid">ALERT FLAGS</div>
-        <div class="ms-typeMid">CHECK LOG</div>
+        <div class="ms-typeMid">风险提示</div>
+        <div class="ms-typeMid">检查记录</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeTiny">PRE-LEASE INSPECTION</div>
+        <div class="ms-typeTiny">签约前检查</div>
       </div>
     </div>
 
   </div>
-  <!-- ⭐ END TYPE FOG -->
 
 
-  <!-- BACKGROUND WALL -->
   <div class="ms-wall">
     <div class="ms-lanes" id="lanes"></div>
   </div>
 
-  <!-- CENTER PANEL -->
   <div class="ms-center">
     <div class="ms-panel">
 
       <div class="ms-switchRow">
-        <div class="ms-switch active" data-key="heating">Heating</div>
-        <div class="ms-switch" data-key="lighting">Lighting</div>
-        <div class="ms-switch" data-key="ventilation">Ventilation</div>
-        <div class="ms-switch" data-key="security">Security</div>
+        <div class="ms-switch active" data-key="heating">供暖</div>
+        <div class="ms-switch" data-key="lighting">照明</div>
+        <div class="ms-switch" data-key="ventilation">通风</div>
+        <div class="ms-switch" data-key="security">安保</div>
       </div>
 
       <div class="ms-titleMain" id="title"></div>
       <ul class="ms-signals" id="signals"></ul>
 
       <div class="ms-foot">
-        Standards define the baseline. We interpret the reality.
-        <a href="#">Official guidelines →</a>
+        最低标准定义了底线，我们负责解释现场情况。
+        <a href="#">官方指南 →</a>
       </div>
 
     </div>
@@ -93,26 +86,22 @@
 
 </main>
 
-<script src="./js/header.js"></script>
-
 <script>
 
-/* ===== BACKGROUND WALL ===== */
-
 const ITEMS=[
-["Heating System","Fixed heater required"],
-["Smoke Alarm","Working alarm required"],
-["Door Locks","External doors secure"],
-["Lighting","Minimum illumination"],
-["Ventilation","Bathroom airflow"],
-["Windows","Must open safely"],
-["Switchboard","Circuit protection"],
-["Structural","Wall condition"]
+["供暖系统","需要固定供暖设备"],
+["烟雾报警器","需要正常工作"],
+["门锁","外门需要安全可锁"],
+["照明","需要满足最低照明标准"],
+["通风","浴室需要空气流通"],
+["窗户","必须能安全开启"],
+["配电箱","需要电路保护"],
+["结构","墙体状况需要稳定"]
 ];
 
 function card(i){
 return `<div class="ms-card">
-<div class="ms-tag">inspection</div>
+<div class="ms-tag">检查</div>
 <div class="ms-ctitle">${i[0]}</div>
 <div class="ms-cdesc">${i[1]}</div>
 </div>`;
@@ -156,13 +145,11 @@ requestAnimationFrame(animate);
 }
 animate();
 
-/* ===== PANEL CONTENT ===== */
-
 const DATA={
-heating:{title:"Heating signals",list:["Fixed heater presence","Cold zone coverage gaps","Unsafe placement risks"]},
-lighting:{title:"Lighting signals",list:["Adequate brightness","Dim lighting","Non-functional fixtures"]},
-ventilation:{title:"Ventilation signals",list:["Airflow path","Weak extraction","Moisture indicators"]},
-security:{title:"Security signals",list:["Door lock integrity","Window latch check","Closure alignment"]}
+heating:{title:"供暖信号",list:["是否有固定供暖设备","是否存在寒冷死角","摆放位置是否有安全风险"]},
+lighting:{title:"照明信号",list:["亮度是否足够","是否光线偏暗","灯具是否失效"]},
+ventilation:{title:"通风信号",list:["空气流通路径","排风是否偏弱","是否有潮湿迹象"]},
+security:{title:"安保信号",list:["门锁完整性","窗扣检查","闭合是否对齐"]}
 };
 
 const title=document.getElementById("title");

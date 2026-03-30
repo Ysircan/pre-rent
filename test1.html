@@ -9,9 +9,781 @@
   <link rel="stylesheet" href="./css/header.css">
   <link rel="stylesheet" href="./css/pages/home.css">
 
-  <link rel="stylesheet" href="./css/homepage/homepage.css">
+  <style>
+    /* ===== 保留 hero 原来的内部样式 ===== */
+    .hero-carousel-shell {
+      max-width: 1080px;
+      padding: 28px 28px 22px;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
 
+    .hero-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
 
+    .hero-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 2px solid #000;
+      background: #fff7bf;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero-mini-note {
+      font-size: 13px;
+      color: #555;
+      font-weight: 700;
+    }
+
+    .hero-stage {
+      position: relative;
+      min-height: 430px;
+    }
+
+    .hero-slide {
+      display: none;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 26px;
+      animation: fadeUp .38s ease;
+    }
+
+    .hero-slide.is-active {
+      display: grid;
+    }
+
+    .hero-copy {
+      text-align: left;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      margin: 0 0 14px;
+      padding: 6px 12px;
+      border: 2px solid #000;
+      border-radius: 999px;
+      background: #f9f1ff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    .hero-desc {
+      margin: 0 0 22px;
+      max-width: 560px;
+      text-align: left;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .hero-ghost-btn {
+      display: inline-block;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      padding: 16px 28px;
+      border: 3px solid #000;
+      text-decoration: none;
+      box-shadow: 6px 6px 0 #000;
+      transition: all .18s ease;
+    }
+
+    .hero-ghost-btn:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .comic-board {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      min-height: 320px;
+      background: linear-gradient(135deg, #fff8cc 0%, #ffffff 100%);
+      border: 4px solid #000;
+      border-radius: 24px;
+      box-shadow: 10px 10px 0 #000;
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .comic-board::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(0,0,0,0.06) 2px, transparent 2px),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.05) 2px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(0,0,0,0.05) 2px, transparent 2px);
+      background-size: 26px 26px, 30px 30px, 28px 28px;
+      pointer-events: none;
+    }
+
+    .comic-label {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 3px solid #000;
+      background: #f5c400;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .comic-title {
+      position: relative;
+      z-index: 1;
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.06;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .comic-desc {
+      position: relative;
+      z-index: 1;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #333;
+      max-width: 300px;
+    }
+
+    .comic-sticker {
+      position: absolute;
+      z-index: 1;
+      padding: 10px 14px;
+      border-radius: 16px;
+      border: 3px solid #000;
+      font-size: 12px;
+      font-weight: 900;
+      background: #fff;
+      box-shadow: 5px 5px 0 #000;
+      transform: rotate(-4deg);
+    }
+
+    .comic-sticker.s1 {
+      right: 18px;
+      top: 24px;
+      background: #ffe7f0;
+    }
+
+    .comic-sticker.s2 {
+      right: 26px;
+      bottom: 28px;
+      background: #dff8ff;
+      transform: rotate(5deg);
+    }
+
+    .comic-sticker.s3 {
+      left: 22px;
+      bottom: 24px;
+      background: #f2ffe2;
+      transform: rotate(-6deg);
+    }
+
+    .hero-thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .hero-thumb {
+      width: 100%;
+      text-align: left;
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 2px solid #ddd;
+      background: #fff;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .hero-thumb:hover {
+      transform: translateY(-2px);
+      border-color: #000;
+    }
+
+    .hero-thumb.is-active {
+      border-color: #000;
+      background: #fff8cc;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .thumb-no {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 2px solid #000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      background: #fff;
+    }
+
+    .thumb-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .thumb-text strong {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .thumb-text small {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    /* ===== 新版 hero 下方 ===== */
+    .luxe-home {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 20px 110px;
+    }
+
+    .luxe-block {
+      margin-top: 96px;
+    }
+
+    .luxe-home > .luxe-block:first-child {
+      margin-top: 0;
+    }
+
+    .luxe-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border: 2px solid #000;
+      border-radius: 999px;
+      background: #fff7c7;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ===== 只重写大标题 ===== */
+    .luxe-title {
+      margin: 18px 0 0;
+      font-weight: 900;
+      color: #111;
+      line-height: 0.9;
+      letter-spacing: -0.065em;
+      word-break: keep-all;
+      text-wrap: balance;
+    }
+
+    .luxe-title--services {
+      font-size: clamp(40px, 4.45vw, 64px);
+      max-width: 8.1em;
+    }
+
+    .luxe-title--flow {
+      font-size: clamp(38px, 4.05vw, 58px);
+      max-width: 6.9em;
+    }
+
+    .luxe-title--faq {
+      font-size: clamp(42px, 4.6vw, 68px);
+      max-width: 8.2em;
+    }
+
+    .luxe-text {
+      margin: 18px 0 0;
+      max-width: 640px;
+      font-size: 17px;
+      line-height: 1.8;
+      color: #5d5d5d;
+    }
+
+    .luxe-services-wrap {
+      margin-top: 34px;
+      border-top: 2px solid #111;
+    }
+
+    .luxe-service {
+      display: grid;
+      grid-template-columns: 140px 1fr 260px;
+      gap: 20px;
+      align-items: start;
+      padding: 28px 0;
+      border-bottom: 1px solid #d8d2cd;
+    }
+
+    .luxe-service-no {
+      font-size: 14px;
+      font-weight: 900;
+      color: #777;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-top: 4px;
+    }
+
+    .luxe-service-main h3 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .luxe-service-main p {
+      margin: 12px 0 0;
+      max-width: 640px;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .luxe-service-side {
+      padding-top: 6px;
+    }
+
+    .luxe-service-side span {
+      display: inline-flex;
+      margin: 0 10px 10px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f4f1ec;
+      border: 1px solid #ddd5cf;
+      font-size: 13px;
+      font-weight: 800;
+      color: #444;
+    }
+
+    .luxe-why {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .luxe-quote {
+      background: linear-gradient(135deg, #fff8e0 0%, #fff 100%);
+      border: 3px solid #000;
+      border-radius: 34px;
+      box-shadow: 10px 10px 0 #000;
+      padding: 32px;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .luxe-quote-mark {
+      font-size: 70px;
+      line-height: 1;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 10px;
+    }
+
+    .luxe-quote p {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .luxe-quote small {
+      display: block;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #5d5d5d;
+      font-weight: 700;
+    }
+
+    .luxe-points {
+      display: grid;
+      gap: 16px;
+    }
+
+    .luxe-point {
+      background: #fff;
+      border: 2px solid #ddd4cf;
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .luxe-point strong {
+      display: block;
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.08;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .luxe-point span {
+      display: block;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #5b5b5b;
+    }
+
+    .luxe-flow-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .luxe-flow-strip {
+      margin-top: 28px;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 28px;
+      padding: 18px;
+    }
+
+    .luxe-flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .luxe-flow-item {
+      background: #f7f4ef;
+      border-radius: 22px;
+      padding: 22px 18px;
+      min-height: 170px;
+    }
+
+    .luxe-flow-item em {
+      display: inline-block;
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #777;
+      margin-bottom: 12px;
+    }
+
+    .luxe-flow-item h4 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      line-height: 1.08;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .luxe-flow-item p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.72;
+      color: #5d5d5d;
+    }
+
+    .luxe-cta {
+      background: #111;
+      color: #fff;
+      border-radius: 38px;
+      padding: 46px 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .luxe-cta::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .luxe-cta-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+    }
+
+    .luxe-cta h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 56px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .luxe-cta p {
+      margin: 16px 0 0;
+      max-width: 640px;
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .luxe-cta-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .luxe-cta-actions .hero-cta {
+      background: #fff;
+      color: #111;
+    }
+
+    .luxe-cta-actions .hero-ghost-btn {
+      background: transparent;
+      color: #fff;
+      border-color: #fff;
+      box-shadow: 6px 6px 0 rgba(255,255,255,0.18);
+    }
+
+    .luxe-faq-head {
+      max-width: 760px;
+    }
+
+    .luxe-faq-list {
+      margin-top: 30px;
+      border-top: 2px solid #111;
+    }
+
+    .luxe-faq-item {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 24px;
+      padding: 22px 0;
+      border-bottom: 1px solid #ddd5cf;
+    }
+
+    .luxe-faq-item h4 {
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.15;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .luxe-faq-item p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.78;
+      color: #5c5c5c;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1040px) {
+      .luxe-why,
+      .luxe-cta-inner,
+      .luxe-faq-item,
+      .luxe-service {
+        grid-template-columns: 1fr;
+      }
+
+      .luxe-flow-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .luxe-cta-actions {
+        justify-content: flex-start;
+      }
+
+      .luxe-title,
+      .luxe-title--services,
+      .luxe-title--flow,
+      .luxe-title--faq {
+        max-width: none;
+        font-size: clamp(36px, 7vw, 58px);
+        line-height: 0.92;
+        letter-spacing: -0.055em;
+        text-wrap: pretty;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-carousel-shell {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-stage {
+        min-height: auto;
+      }
+
+      .hero-slide,
+      .hero-slide.is-active {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        order: 2;
+      }
+
+      .hero-visual {
+        order: 1;
+        min-height: auto;
+      }
+
+      .comic-board {
+        min-height: 280px;
+      }
+
+      .hero-thumbs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .luxe-home {
+        padding: 18px 16px 84px;
+      }
+
+      .luxe-block {
+        margin-top: 72px;
+      }
+
+      .luxe-flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .luxe-quote,
+      .luxe-cta {
+        border-radius: 24px;
+      }
+
+      .luxe-service-main h3 {
+        font-size: 28px;
+      }
+
+      .luxe-faq-item h4 {
+        font-size: 20px;
+      }
+
+      .luxe-cta-actions .hero-cta,
+      .luxe-cta-actions .hero-ghost-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .luxe-title,
+      .luxe-title--services,
+      .luxe-title--flow,
+      .luxe-title--faq {
+        font-size: clamp(32px, 9vw, 46px);
+        line-height: 0.94;
+        letter-spacing: -0.045em;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-topline {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-title {
+        text-align: left;
+      }
+
+      .hero-desc {
+        text-align: left;
+      }
+
+      .hero-cta,
+      .hero-ghost-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .comic-title {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 
 <body data-page="index">
@@ -19,7 +791,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="logo-block">
-     <img src="./assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="RentScope" />
+        <img src="./images/logo.png" alt="Logo" />
         <div class="logo-text">
           <div class="logo-name">墨尔本安顿支持</div>
           <div class="logo-tagline">生活服务支持</div>
