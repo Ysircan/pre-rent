@@ -3,481 +3,974 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Melbourne Support</title>
+  <title>Melbourne Settlement Support</title>
 
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/header.css">
-  <link rel="stylesheet" href="./css/pages/home.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="./css/homepage/homepage.css">
+  <style>
+    :root {
+      --cream:     #FAF6F0;
+      --warm:      #F3EBE0;
+      --sand:      #E8DED0;
+      --terracotta:#C4805A;
+      --clay:      #A0694B;
+      --bark:      #5C3D2E;
+      --ink:       #2B1D12;
+      --olive:     #7A8B6F;
+      --sage:      #B5C4A8;
+      --gold:      #D4A853;
+      --blush:     #E8C4B0;
+      --white:     #FFFDF9;
+    }
 
+    * { margin:0; padding:0; box-sizing:border-box; }
 
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==================== NAV ==================== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background .4s, backdrop-filter .4s;
+    }
+    .nav.scrolled {
+      background: rgba(250,246,240,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+    .nav-logo-text {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: .3px;
+    }
+    .nav-links {
+      display: flex; gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--bark);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .2px;
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 32px; height: 32px;
+      position: relative;
+      z-index: 110;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      position: absolute;
+      left: 5px;
+      transition: all .3s;
+    }
+    .nav-hamburger span:nth-child(1) { top: 8px; }
+    .nav-hamburger span:nth-child(2) { top: 15px; }
+    .nav-hamburger span:nth-child(3) { top: 22px; }
+    .nav-hamburger.open span:nth-child(1) { top: 15px; transform: rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { top: 15px; transform: rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(250,246,240,.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      transition: color .3s;
+    }
+    .mobile-menu a:hover { color: var(--terracotta); }
+
+    /* ==================== HERO ==================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background: linear-gradient(175deg, #E8F4FD 0%, #F0F7FF 30%, #FFFEF8 65%, #FAF6F0 100%);
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* sky-blue fallback shown until video plays */
+    .hero-fallback {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #A8DCFA 0%, #7CC4F5 30%, #d4eeff 55%, #FFF8E1 80%, #FFFCED 100%);
+      z-index: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-fallback-sun {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFFFFF 0%, rgba(255,250,200,.9) 30%, rgba(255,230,120,.4) 60%, transparent 100%);
+      animation: pulse 4s ease-in-out infinite;
+      box-shadow: 0 0 120px rgba(255,240,150,.5), 0 0 240px rgba(255,230,100,.2);
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity:.85; }
+      50%     { transform: scale(1.15); opacity:1; }
+    }
+
+    /* semi-transparent overlay */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.5) 0%, rgba(0,0,0,.2) 40%, rgba(0,0,0,.05) 70%, transparent 100%),
+        linear-gradient(to right, rgba(0,0,0,.15) 0%, transparent 55%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* sun glow decoration */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 800px; height: 800px;
+      top: -350px; right: -180px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(255,245,200,.35) 0%,
+        rgba(255,230,140,.12) 30%,
+        transparent 60%);
+      pointer-events: none;
+      z-index: 2;
+      animation: sunBreathe 8s ease-in-out infinite;
+    }
+    @keyframes sunBreathe {
+      0%,100% { transform: scale(1); opacity: .7; }
+      50%     { transform: scale(1.08); opacity: 1; }
+    }
+
+    /* floating particles */
+    .hero-particles {
+      position: absolute; inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+    }
+    .particle:nth-child(1) { width:5px;height:5px;left:10%;background:rgba(255,235,150,.7);animation:floatSlow 10s ease-in-out infinite 0s; }
+    .particle:nth-child(2) { width:4px;height:4px;left:35%;background:rgba(170,215,255,.5);animation:floatSlow 12s ease-in-out infinite 2s; }
+    .particle:nth-child(3) { width:7px;height:7px;left:60%;background:rgba(255,240,160,.6);animation:floatSlow 9s ease-in-out infinite 4s; }
+    .particle:nth-child(4) { width:3px;height:3px;left:80%;background:rgba(170,215,255,.4);animation:floatSlow 11s ease-in-out infinite 1s; }
+    .particle:nth-child(5) { width:4px;height:4px;left:25%;background:rgba(255,230,130,.5);animation:floatSlow 13s ease-in-out infinite 6s; }
+    .particle:nth-child(6) { width:6px;height:6px;left:50%;background:rgba(255,245,180,.6);animation:floatSlow 10s ease-in-out infinite 3s; }
+    .particle:nth-child(7) { width:3px;height:3px;left:72%;background:rgba(160,210,255,.4);animation:floatSlow 14s ease-in-out infinite 5s; }
+    .particle:nth-child(8) { width:5px;height:5px;left:15%;background:rgba(255,235,140,.5);animation:floatSlow 11s ease-in-out infinite 7s; }
+
+    @keyframes floatSlow {
+      0%   { transform: translateY(90vh) translateX(0) scale(.5); opacity:0; }
+      15%  { opacity:.4; }
+      50%  { transform: translateY(40vh) translateX(20px) scale(1); opacity:.3; }
+      85%  { opacity:.15; }
+      100% { transform: translateY(-10vh) translateX(-10px) scale(.7); opacity:0; }
+    }
+
+    /* text content over video */
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 72px;
+      color: #fff;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp .8s ease forwards .2s;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 32px; height: 1px;
+      background: rgba(255,255,255,.55);
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', 'Playfair Display', serif;
+      font-size: clamp(32px, 4.5vw, 56px);
+      font-weight: 700;
+      line-height: 1.35;
+      color: #fff;
+      margin-bottom: 18px;
+      max-width: 620px;
+      opacity: 0;
+      animation: fadeUp .8s ease forwards .4s;
+    }
+    .hero-title em {
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      color: #FFD96A;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(255,255,255,.88);
+      font-weight: 300;
+      margin-bottom: 32px;
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeUp .8s ease forwards .6s;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .8s ease forwards .8s;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 15px 34px;
+      background: var(--terracotta);
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 60px;
+      transition: all .3s;
+      letter-spacing: .3px;
+    }
+    .btn-primary:hover {
+      background: var(--clay);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(196,128,90,.35);
+    }
+    .btn-ghost {
+      display: inline-block;
+      padding: 15px 30px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1.5px solid rgba(255,255,255,.45);
+      border-radius: 60px;
+      transition: all .3s;
+    }
+    .btn-ghost:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,.1);
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ==================== TRUST STRIP ==================== */
+    .trust-strip {
+      padding: 48px;
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      border-top: 1px solid rgba(232,222,208,.6);
+      border-bottom: 1px solid rgba(232,222,208,.6);
+    }
+    .trust-item {
+      text-align: center;
+    }
+    .trust-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--terracotta);
+    }
+    .trust-label {
+      font-size: 13px;
+      color: var(--clay);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    /* ==================== FEELING SECTION ==================== */
+    .feeling {
+      padding: 140px 48px;
+      text-align: center;
+      position: relative;
+    }
+    .feeling-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--olive);
+      border: 1px solid var(--sage);
+      padding: 6px 20px;
+      border-radius: 40px;
+      margin-bottom: 32px;
+    }
+    .feeling-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      line-height: 1.5;
+      max-width: 680px;
+      margin: 0 auto 24px;
+    }
+    .feeling-sub {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--clay);
+      font-weight: 300;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ==================== SERVICES ==================== */
+    .services {
+      padding: 0 48px 140px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .svc-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 36px;
+      transition: all .4s;
+      border: 1px solid rgba(232,222,208,.5);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+    .svc-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--terracotta);
+      transform: scaleX(0);
+      transition: transform .4s;
+    }
+    .svc-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(43,29,18,.06);
+    }
+    .svc-card:hover::after { transform: scaleX(1); }
+
+    .svc-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+    .svc-card:nth-child(1) .svc-icon { background: rgba(196,128,90,.12); color: var(--terracotta); }
+    .svc-card:nth-child(2) .svc-icon { background: rgba(91,163,217,.12); color: #5BA3D9; }
+    .svc-card:nth-child(3) .svc-icon { background: rgba(122,139,111,.12); color: var(--olive); }
+
+    .svc-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      color: var(--clay);
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+    .svc-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .svc-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--clay);
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+    .svc-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .svc-tags span {
+      font-size: 12px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: var(--cream);
+      color: var(--bark);
+      font-weight: 400;
+    }
+
+    /* ==================== QUOTE ==================== */
+    .quote-section {
+      padding: 120px 48px;
+      background: var(--warm);
+      position: relative;
+    }
+    .quote-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 80px;
+      color: var(--terracotta);
+      opacity: .3;
+      line-height: 1;
+      margin-bottom: -20px;
+    }
+    .quote-text {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.8;
+      font-weight: 400;
+      margin-bottom: 24px;
+    }
+    .quote-sub {
+      font-size: 15px;
+      color: var(--clay);
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    /* ==================== HOW IT WORKS ==================== */
+    .process {
+      padding: 140px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .process-head {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--sand), var(--terracotta), var(--sand));
+    }
+    .step {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      padding: 36px 0;
+    }
+    .step-dot {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--sand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--terracotta);
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+      transition: all .3s;
+    }
+    .step:hover .step-dot {
+      background: var(--terracotta);
+      color: var(--white);
+      border-color: var(--terracotta);
+    }
+    .step-content h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step-content p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--clay);
+      font-weight: 300;
+    }
+
+    /* ==================== CTA ==================== */
+    .cta-section {
+      padding: 120px 48px;
+      text-align: center;
+      position: relative;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 50% at 50% 50%, rgba(196,128,90,.06), transparent);
+      pointer-events: none;
+    }
+    .cta-card {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 32px;
+      padding: 80px 64px;
+      box-shadow: 0 32px 80px rgba(43,29,18,.05);
+      position: relative;
+      z-index: 1;
+    }
+    .cta-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .cta-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--clay);
+      font-weight: 300;
+      margin-bottom: 36px;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .cta-actions .btn-ghost {
+      color: var(--bark);
+      border-color: var(--sand);
+    }
+    .cta-actions .btn-ghost:hover {
+      border-color: var(--terracotta);
+      color: var(--terracotta);
+      background: transparent;
+    }
+
+    /* ==================== FOOTER ==================== */
+    .footer {
+      padding: 64px 48px 48px;
+      border-top: 1px solid var(--sand);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-left {
+      font-size: 13px;
+      color: var(--clay);
+      font-weight: 300;
+    }
+    .footer-right {
+      display: flex; gap: 28px;
+    }
+    .footer-right a {
+      font-size: 13px;
+      color: var(--clay);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    .footer-right a:hover { color: var(--terracotta); }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 900px) {
+      .nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+
+      .hero-content { padding: 0 24px 48px; }
+      .hero-title { font-size: clamp(28px, 7vw, 40px); }
+      .hero-desc { font-size: 15px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .trust-strip { flex-wrap: wrap; gap: 32px; }
+      .feeling, .process, .cta-section { padding: 80px 24px; }
+      .cta-card { padding: 48px 32px; }
+      .cta-actions { flex-direction: column; align-items: center; }
+      .footer { flex-direction: column; gap: 24px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content { padding: 0 20px 36px; }
+      .hero-title { font-size: clamp(24px, 6.5vw, 32px); }
+      .hero-desc { font-size: 14px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-ghost { text-align: center; }
+      .trust-strip { gap: 24px; padding: 36px 24px; }
+      .trust-num { font-size: 26px; }
+    }
+  </style>
 </head>
 
-<body data-page="index">
+<body>
 
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="logo-block">
-     <img src="./assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="RentScope" />
-        <div class="logo-text">
-          <div class="logo-name">墨尔本安顿支持</div>
-          <div class="logo-tagline">生活服务支持</div>
-        </div>
-      </div>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="/" class="nav-logo">
+      <img src="./assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="Logo">
+      <div class="nav-logo-text">Melbourne Settlement</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./rent/index.html">住房支持</a></li>
+      <li><a href="#">落地支持</a></li>
+      <li><a href="#">清洁服务</a></li>
+      <li><a href="./book.html">预约</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-      <nav class="main-nav">
-        <a href="./rent/index.html" class="nav-link">住房支持</a>
-        <a href="./study-support.html" class="nav-link">落地支持</a>
-        <a href="./cleaning.html" class="nav-link">清洁服务</a>
-      </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="./rent/index.html">住房支持</a>
+    <a href="#">落地支持</a>
+    <a href="#">清洁服务</a>
+    <a href="./book.html">预约</a>
+  </div>
 
-      <button class="menu-toggle" aria-label="打开菜单">☰</button>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-fallback" id="videoFallback">
+      <div class="hero-fallback-sun"></div>
     </div>
 
-    <div class="mobile-nav">
-      <a href="./rent/index.html">住房支持</a>
-      <a href="./study-support.html">落地支持</a>
-      <a href="./cleaning.html">清洁服务</a>
+    <video class="hero-video" autoplay muted loop playsinline
+      src="./assets/images/24cbe3a9a813b5a5ebc3958bf53237f5.mp4"></video>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
     </div>
-  </header>
 
-  <main class="page">
-
-    <!-- HERO 保持不动 -->
-    <section class="hero">
-      <div class="hero-inner hero-carousel-shell">
-
-        <div class="hero-topline">
-          <div class="hero-badge-row">
-            <span class="hero-badge">墨尔本</span>
-            <span class="hero-badge">新到墨尔本人友好</span>
-          </div>
-          <div class="hero-mini-note">住房 · 落地 · 清洁</div>
-        </div>
-
-        <div class="hero-stage">
-
-          <article class="hero-slide is-active" data-slide="housing">
-            <div class="hero-copy">
-              <p class="hero-eyebrow">01 · 住房支持</p>
-              <h1 class="hero-title">
-                让你更轻松入住<br>
-                <span>用更实际的住房支持开始</span>
-              </h1>
-              <p class="hero-desc">
-                提供看房协助、入住准备与基础租房指导，
-                帮助刚到墨尔本的人更顺利地安顿下来。
-              </p>
-
-              <div class="hero-actions">
-                <a href="./housing.html" class="hero-cta">查看住房支持 →</a>
-                <a href="./booking.html" class="hero-ghost-btn">预约时间</a>
-              </div>
-
-              <div class="hero-chips">
-                <span class="hero-chip">看房协助</span>
-                <span class="hero-chip">入住准备</span>
-                <span class="hero-chip">租房指导</span>
-              </div>
-            </div>
-
-            <div class="hero-visual">
-              <div class="comic-board">
-                <div class="comic-label">住房</div>
-                <div class="comic-title">找房更轻松<br>少一点压力</div>
-                <div class="comic-desc">
-                  用更实际、更清晰的支持，
-                  帮你在做决定前少踩一点坑。
-                </div>
-
-                <div class="comic-sticker s1">看房帮助</div>
-                <div class="comic-sticker s2">入住准备</div>
-                <div class="comic-sticker s3">生活安顿</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="hero-slide" data-slide="study">
-            <div class="hero-copy">
-              <p class="hero-eyebrow">02 · 落地支持</p>
-              <h1 class="hero-title">
-                更安心地开始<br>
-                <span>在墨尔本的新生活</span>
-              </h1>
-              <p class="hero-desc">
-                为刚到墨尔本的人提供生活落地支持，
-                从基础安排到日常适应都更轻松一点。
-              </p>
-
-              <div class="hero-actions">
-                <a href="./study-support.html" class="hero-cta">查看落地支持 →</a>
-                <a href="./booking.html" class="hero-ghost-btn">联系我们</a>
-              </div>
-
-              <div class="hero-chips">
-                <span class="hero-chip">刚到墨尔本</span>
-                <span class="hero-chip">日常安排</span>
-                <span class="hero-chip">清晰指引</span>
-              </div>
-            </div>
-
-            <div class="hero-visual">
-              <div class="comic-board" style="background: linear-gradient(135deg, #ffe7f5 0%, #ffffff 100%);">
-                <div class="comic-label" style="background:#ff9ec4;">落地</div>
-                <div class="comic-title">让新生活开始得<br>更容易一点</div>
-                <div class="comic-desc">
-                  给刚到墨尔本的人一个更柔和的开始，
-                  简单、清晰、容易沟通。
-                </div>
-
-                <div class="comic-sticker s1">新的开始</div>
-                <div class="comic-sticker s2">生活支持</div>
-                <div class="comic-sticker s3">友好帮助</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="hero-slide" data-slide="cleaning">
-            <div class="hero-copy">
-              <p class="hero-eyebrow">03 · 清洁服务</p>
-              <h1 class="hero-title">
-                在真正住进去之前<br>
-                <span>先拥有一个更干净的空间</span>
-              </h1>
-              <p class="hero-desc">
-                提供入住前清洁、基础整理与简单空间焕新，
-                让房间从第一天开始就更舒服。
-              </p>
-
-              <div class="hero-actions">
-                <a href="./cleaning.html" class="hero-cta">查看清洁服务 →</a>
-                <a href="./booking.html" class="hero-ghost-btn">提交需求</a>
-              </div>
-
-              <div class="hero-chips">
-                <span class="hero-chip">入住前清洁</span>
-                <span class="hero-chip">房间整理</span>
-                <span class="hero-chip">轻松预约</span>
-              </div>
-            </div>
-
-            <div class="hero-visual">
-              <div class="comic-board" style="background: linear-gradient(135deg, #e6fff0 0%, #ffffff 100%);">
-                <div class="comic-label" style="background:#8df0a9;">清洁</div>
-                <div class="comic-title">房间更干净<br>开始更舒服</div>
-                <div class="comic-desc">
-                  在正式入住前先把空间整理好，
-                  让生活从第一天就更顺一点。
-                </div>
-
-                <div class="comic-sticker s1">清爽空间</div>
-                <div class="comic-sticker s2">入住前清洁</div>
-                <div class="comic-sticker s3">准备就绪</div>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="hero-thumbs">
-          <button class="hero-thumb is-active" type="button" data-target="housing">
-            <span class="thumb-no">01</span>
-            <span class="thumb-text">
-              <strong>住房支持</strong>
-              <small>看房 · 租房 · 入住</small>
-            </span>
-          </button>
-
-          <button class="hero-thumb" type="button" data-target="study">
-            <span class="thumb-no">02</span>
-            <span class="thumb-text">
-              <strong>落地支持</strong>
-              <small>新到墨尔本 · 生活 · 安顿</small>
-            </span>
-          </button>
-
-          <button class="hero-thumb" type="button" data-target="cleaning">
-            <span class="thumb-no">03</span>
-            <span class="thumb-text">
-              <strong>清洁服务</strong>
-              <small>干净 · 舒适 · 准备好</small>
-            </span>
-          </button>
-        </div>
-
+    <div class="hero-content">
+      <div class="hero-eyebrow">Melbourne Settlement</div>
+      <h1 class="hero-title">
+        到了墨尔本，<br>一切会慢慢<em>好起来</em>的。
+      </h1>
+      <p class="hero-desc">
+        不需要一次想清楚所有事。<br>
+        我们先帮你把最眼前的安顿好——住的地方、生活的节奏、还有那些刚到时说不清的不安。
+      </p>
+      <div class="hero-actions">
+        <a href="./book.html" class="btn-primary">开始安顿 →</a>
+        <a href="./rent/index.html" class="btn-ghost">先看看服务</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 新版 hero 下方 -->
-    <div class="luxe-home">
 
-      <section class="luxe-block">
-        <span class="luxe-tag">Popular support</span>
-        <h2 class="luxe-title luxe-title--services">
-          最常见的支持内容，通常都很实际。
-        </h2>
-        <p class="luxe-text">
-          不是复杂方案，而是把真正会影响生活开始状态的几件事处理好。
+  <!-- TRUST -->
+  <div class="trust-strip">
+    <div class="trust-item">
+      <div class="trust-num">200+</div>
+      <div class="trust-label">已协助安顿</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">48h</div>
+      <div class="trust-label">平均响应</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">98%</div>
+      <div class="trust-label">满意反馈</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">中文</div>
+      <div class="trust-label">全程沟通</div>
+    </div>
+  </div>
+
+
+  <!-- FEELING -->
+  <section class="feeling">
+    <div class="feeling-tag">我们在做的事</div>
+    <h2 class="feeling-title">
+      把到墨尔本之后最混乱的那几天，<br>变得稍微轻松一些。
+    </h2>
+    <p class="feeling-sub">
+      不是什么都能帮，但在找房、入住、和生活刚开始的阶段，有人陪你一起理清楚，体验真的会不一样。
+    </p>
+  </section>
+
+
+  <!-- SERVICES -->
+  <section class="services">
+    <div class="services-grid">
+
+      <a class="svc-card" href="./rent/index.html">
+        <div class="svc-icon">01</div>
+        <div class="svc-num">01</div>
+        <h3 class="svc-title">住房支持</h3>
+        <p class="svc-desc">
+          看房前帮你理清重点，入住前帮你检查状况。让租房这件事少一点不确定。
         </p>
-
-        <div class="luxe-services-wrap">
-          <article class="luxe-service">
-            <div class="luxe-service-no">01 / Housing</div>
-            <div class="luxe-service-main">
-              <h3>看房协助</h3>
-              <p>
-                在真正决定之前，先把房子的情况、入住前要注意的点，
-                以及一些容易忽略的实际问题看清楚一点。
-              </p>
-            </div>
-            <div class="luxe-service-side">
-              <span>看房前沟通</span>
-              <span>基础判断</span>
-              <span>入住前确认</span>
-            </div>
-          </article>
-
-          <article class="luxe-service">
-            <div class="luxe-service-no">02 / Move-in</div>
-            <div class="luxe-service-main">
-              <h3>入住准备</h3>
-              <p>
-                很多人不是不会做，而是事情一多就容易乱。我们会把入住前后需要先处理的内容，
-                用更清楚的顺序帮你理出来。
-              </p>
-            </div>
-            <div class="luxe-service-side">
-              <span>入住前准备</span>
-              <span>时间安排</span>
-              <span>顺序梳理</span>
-            </div>
-          </article>
-
-          <article class="luxe-service">
-            <div class="luxe-service-no">03 / Cleaning</div>
-            <div class="luxe-service-main">
-              <h3>空间清洁整理</h3>
-              <p>
-                在真正住进去之前，先把空间处理得更干净、更舒服，
-                会让后面的生活状态完全不一样。
-              </p>
-            </div>
-            <div class="luxe-service-side">
-              <span>入住前清洁</span>
-              <span>简单整理</span>
-              <span>空间状态提升</span>
-            </div>
-          </article>
-
-          <article class="luxe-service">
-            <div class="luxe-service-no">04 / Daily setup</div>
-            <div class="luxe-service-main">
-              <h3>日常安顿支持</h3>
-              <p>
-                刚到一个新城市时，很多事情本身不难，但会很消耗精力。
-                有人帮你一起梳理，整个开始会稳很多。
-              </p>
-            </div>
-            <div class="luxe-service-side">
-              <span>生活过渡</span>
-              <span>基础支持</span>
-              <span>更顺一点开始</span>
-            </div>
-          </article>
+        <div class="svc-tags">
+          <span>看房协助</span>
+          <span>租前检查</span>
+          <span>入住准备</span>
         </div>
-      </section>
+      </a>
 
-      <section class="luxe-block">
-        <div class="luxe-why">
-          <div class="luxe-quote">
-            <div>
-              <div class="luxe-quote-mark">“</div>
-              <p>
-                我们不追求把服务讲得很大，<br>
-                只想把你的开始，<br>
-                处理得更轻一点。
-              </p>
-            </div>
-            <small>
-              对刚到墨尔本的人来说，真正有用的支持通常不是“什么都能做”，
-              而是有人能把眼前最麻烦的几步先理顺。
-            </small>
-          </div>
-
-          <div class="luxe-points">
-            <article class="luxe-point">
-              <strong>先解决眼前最卡的地方</strong>
-              <span>
-                不是一上来就给很多大而空的建议，而是先看你现在到底卡在哪一步。
-              </span>
-            </article>
-
-            <article class="luxe-point">
-              <strong>说得清楚，比说得多更重要</strong>
-              <span>
-                真正让人安心的不是复杂术语，而是你知道下一步该做什么。
-              </span>
-            </article>
-
-            <article class="luxe-point">
-              <strong>更像真实生活支持，不像模板服务页</strong>
-              <span>
-                我们更在意你的使用感受和生活状态，而不是把页面堆得很满。
-              </span>
-            </article>
-          </div>
+      <a class="svc-card" href="#">
+        <div class="svc-icon">02</div>
+        <div class="svc-num">02</div>
+        <h3 class="svc-title">落地支持</h3>
+        <p class="svc-desc">
+          刚到一个新城市时，事情本身不难，但一多就乱。帮你把最开始的节奏找到。
+        </p>
+        <div class="svc-tags">
+          <span>刚到墨尔本</span>
+          <span>日常安排</span>
+          <span>生活指引</span>
         </div>
-      </section>
+      </a>
 
-      <section class="luxe-block">
-        <div class="luxe-flow-head">
-          <div>
-            <span class="luxe-tag">Simple process</span>
-            <h2 class="luxe-title luxe-title--flow">
-              不用很复杂，路径清楚就够了。
-            </h2>
-          </div>
+      <a class="svc-card" href="#">
+        <div class="svc-icon">03</div>
+        <div class="svc-num">03</div>
+        <h3 class="svc-title">清洁服务</h3>
+        <p class="svc-desc">
+          在真正住进去之前，先让空间变得干净舒服。好的开始从一个清爽的房间开始。
+        </p>
+        <div class="svc-tags">
+          <span>入住前清洁</span>
+          <span>空间整理</span>
+          <span>轻松预约</span>
         </div>
-
-        <div class="luxe-flow-strip">
-          <div class="luxe-flow-grid">
-            <article class="luxe-flow-item">
-              <em>Step 01</em>
-              <h4>先说你的情况</h4>
-              <p>告诉我们你现在是在找房、准备入住，还是刚到墨尔本想先把生活理顺。</p>
-            </article>
-
-            <article class="luxe-flow-item">
-              <em>Step 02</em>
-              <h4>确认适合的支持</h4>
-              <p>根据你的状态，先判断最值得优先处理的事情，而不是一次讲很多。</p>
-            </article>
-
-            <article class="luxe-flow-item">
-              <em>Step 03</em>
-              <h4>安排时间或继续沟通</h4>
-              <p>你可以直接预约，也可以先联系，先把细节确认清楚再决定。</p>
-            </article>
-
-            <article class="luxe-flow-item">
-              <em>Step 04</em>
-              <h4>更稳地开始生活</h4>
-              <p>把最前面的混乱处理好，后面的安顿和适应就会顺很多。</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="luxe-block">
-        <div class="luxe-cta">
-          <div class="luxe-cta-inner">
-            <div>
-              <h2>先告诉我们，<br>你现在最需要处理哪一步。</h2>
-              <p>
-                不一定要马上决定，也不需要一次把所有事情想清楚。
-                从最眼前、最实际的问题开始，就已经够好了。
-              </p>
-            </div>
-
-            <div class="luxe-cta-actions">
-              <a href="./booking.html" class="hero-cta">预约时间 →</a>
-              <a href="./contact.html" class="hero-ghost-btn">先联系我们</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="luxe-block">
-        <div class="luxe-faq-head">
-          <span class="luxe-tag">Common questions</span>
-          <h2 class="luxe-title luxe-title--faq">
-            在开始之前，你可能会先想知道这些。
-          </h2>
-        </div>
-
-        <div class="luxe-faq-list">
-          <article class="luxe-faq-item">
-            <h4>你们主要提供哪些帮助？</h4>
-            <p>
-              目前主要围绕住房支持、入住准备、空间清洁整理，以及刚到墨尔本时的基础生活安顿支持。
-            </p>
-          </article>
-
-          <article class="luxe-faq-item">
-            <h4>只有学生可以使用吗？</h4>
-            <p>
-              不一定。整体内容会对新到墨尔本的人更友好，但不局限于学生身份。
-            </p>
-          </article>
-
-          <article class="luxe-faq-item">
-            <h4>我还没到墨尔本，可以先联系吗？</h4>
-            <p>
-              可以。很多事情在到达前先说清楚，后面会轻松很多。
-            </p>
-          </article>
-
-          <article class="luxe-faq-item">
-            <h4>我不确定自己需要哪一种支持怎么办？</h4>
-            <p>
-              没关系。先把你现在的情况告诉我们，我们会先帮你判断哪一步最值得优先处理。
-            </p>
-          </article>
-        </div>
-      </section>
+      </a>
 
     </div>
+  </section>
 
-  </main>
+
+  <!-- QUOTE -->
+  <section class="quote-section">
+    <div class="quote-inner">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">
+        我们不追求把服务讲得很大，<br>
+        只想把你的开始，处理得更轻一点。
+      </p>
+      <p class="quote-sub">
+        对刚到墨尔本的人来说，真正有用的支持不是"什么都能做"，<br>
+        而是有人能把眼前最麻烦的几步先理顺。
+      </p>
+    </div>
+  </section>
+
+
+  <!-- PROCESS -->
+  <section class="process">
+    <div class="process-head">
+      <div class="feeling-tag">怎么开始</div>
+      <h2 class="feeling-title">不需要很复杂</h2>
+    </div>
+
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <h4>先说你的情况</h4>
+          <p>在找房、准备入住、还是刚到墨尔本想先把生活理顺——先聊聊就好。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <h4>确认最值得先做的事</h4>
+          <p>不是一次讲很多，而是先判断你现在最需要处理哪一步。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <h4>安排时间</h4>
+          <p>可以直接预约，也可以先联系确认细节再决定。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <h4>安心开始新生活</h4>
+          <p>前面的混乱理好了，后面的适应就顺了很多。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-card">
+      <h2 class="cta-title">先告诉我们，<br>你现在在哪个阶段。</h2>
+      <p class="cta-desc">
+        不用想清楚所有事，从最实际的那一步开始就够了。
+      </p>
+      <div class="cta-actions">
+        <a href="./book.html" class="btn-primary">预约时间 →</a>
+        <a href="#" class="btn-ghost">先联系我们</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">© 2026 Melbourne Settlement Support</div>
+    <div class="footer-right">
+      <a href="./rent/index.html">住房支持</a>
+      <a href="#">落地支持</a>
+      <a href="#">清洁服务</a>
+      <a href="./book.html">预约</a>
+    </div>
+  </footer>
+
 
   <script>
-    const slides = document.querySelectorAll('.hero-slide');
-    const thumbs = document.querySelectorAll('.hero-thumb');
-    let current = 0;
-    let timer;
+    // nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
 
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('is-active', i === index);
-      });
-
-      thumbs.forEach((thumb, i) => {
-        thumb.classList.toggle('is-active', i === index);
-      });
-
-      current = index;
-    }
-
-    function startAutoPlay() {
-      timer = setInterval(() => {
-        const next = (current + 1) % slides.length;
-        showSlide(next);
-      }, 3600);
-    }
-
-    function resetAutoPlay() {
-      clearInterval(timer);
-      startAutoPlay();
-    }
-
-    thumbs.forEach((thumb, index) => {
-      thumb.addEventListener('click', () => {
-        showSlide(index);
-        resetAutoPlay();
+    // hamburger
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
       });
     });
 
-    showSlide(0);
-    startAutoPlay();
-
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-
-    if (menuToggle && mobileNav) {
-      menuToggle.addEventListener('click', () => {
-        mobileNav.classList.toggle('show');
+    // video fallback
+    const video = document.querySelector('.hero-video');
+    const fallback = document.getElementById('videoFallback');
+    if (video) {
+      video.addEventListener('playing', () => {
+        if (fallback) fallback.style.display = 'none';
       });
     }
+
+    // scroll-triggered fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.svc-card, .step, .trust-item, .feeling-title, .feeling-sub, .quote-text, .cta-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity .7s ease, transform .7s ease';
+      observer.observe(el);
+    });
   </script>
+
 </body>
 </html>
