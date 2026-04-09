@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>落地支持 · ASAP Group</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+
+<body data-page="landing">
+
+<!-- NAV -->
+<nav class="site-nav" id="siteNav">
+  <a href="../index.html" class="site-nav-logo">
+    <img src="../assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="Logo">
+    <span>ASAP Group</span>
+  </a>
+  <ul class="site-nav-links">
+    <li><a href="../rent/index.html">住房支持</a></li>
+    <li><a href="../landing/index.html" class="is-current">落地支持</a></li>
+    <li><a href="../book.html">预约</a></li>
+  </ul>
+  <button class="site-nav-hamburger" id="siteHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="site-mobile-menu" id="siteMobileMenu">
+  <a href="../rent/index.html">住房支持</a>
+  <a href="../landing/index.html" class="is-current">落地支持</a>
+  <a href="../book.html">预约</a>
+</div>
+
+<main class="page">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-title">
+      落地支持<br>
+      <span>刚到墨尔本，先把生活理顺</span>
+    </h1>
+    <p class="hero-desc">
+      事情不难，但一多就乱。我们帮你把最开始那几天安排好。
+    </p>
+    <a href="../book.html" class="hero-cta">预约落地支持 →</a>
+    <p class="hero-note">生活采购 · 接机安排 · 入住准备</p>
+  </div>
+</section>
+
+
+<!-- CLICKABLE TIMELINE -->
+<section class="tl-section">
+  <h2>按你的节奏，一步步来</h2>
+  <p>点击下面的节点，查看每个阶段我们能帮你做什么。</p>
+
+  <div class="tl-axis" id="tlAxis">
+    <div class="tl-node active" data-phase="0">
+      <div class="tl-dot">01</div>
+      <div class="tl-node-label">到达当天</div>
+      <div class="tl-node-title">落地第一件事</div>
+    </div>
+
+    <div class="tl-node" data-phase="1">
+      <div class="tl-dot">02</div>
+      <div class="tl-node-label">第一周</div>
+      <div class="tl-node-title">把基础搞定</div>
+    </div>
+
+    <div class="tl-node" data-phase="2">
+      <div class="tl-dot">03</div>
+      <div class="tl-node-label">前两周</div>
+      <div class="tl-node-title">生活上轨道</div>
+    </div>
+  </div>
+
+  <div id="tlDetail"></div>
+</section>
+
+
+<!-- WHO -->
+<section class="section">
+<h2>这适合谁</h2>
+</section>
+
+<section class="section who">
+<div class="panel">
+<div class="wrap">
+
+<div class="left">
+<p id="leftText">
+刚到墨尔本的人，最需要的不是攻略，而是有人帮你把第一步走顺。
+</p>
+</div>
+
+<div class="right">
+
+<div class="item">
+<span class="num">01</span>
+<span class="tag">还没到</span>
+<h3>人还在国内</h3>
+<p class="lead">想提前安排好到达后的一切。</p>
+<div class="chips">
+<span>接机预约</span>
+<span>物资提前准备</span>
+<span>到了就能住</span>
+</div>
+</div>
+
+<div class="item">
+<span class="num">02</span>
+<span class="tag">刚到几天</span>
+<h3>已经到了但还没安顿</h3>
+<p class="lead">住下来了，但生活还没理顺。</p>
+<div class="chips">
+<span>还没办银行卡</span>
+<span>家里什么都缺</span>
+<span>不知道去哪买东西</span>
+</div>
+</div>
+
+<div class="item">
+<span class="num">03</span>
+<span class="tag">帮朋友问</span>
+<h3>有朋友/家人要来</h3>
+<p class="lead">想帮他们提前安排好。</p>
+<div class="chips">
+<span>代为预约</span>
+<span>提前沟通需求</span>
+<span>到了就有人接</span>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- CTA -->
+<section class="section cta-minimal">
+<div class="cta-divider"></div>
+<h2 class="cta-title">
+刚到墨尔本？<br>先把最实际的那几件事搞定。
+</h2>
+<a href="../book.html" class="cta-btn">预约落地支持 →</a>
+</section>
+
+</main>
+
+<script>
+// ===== NAV =====
+const siteNav = document.getElementById('siteNav');
+window.addEventListener('scroll', () => {
+  siteNav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+const siteHamburger = document.getElementById('siteHamburger');
+const siteMobileMenu = document.getElementById('siteMobileMenu');
+siteHamburger.addEventListener('click', () => {
+  siteHamburger.classList.toggle('open');
+  siteMobileMenu.classList.toggle('open');
+  document.body.style.overflow = siteMobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+siteMobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    siteHamburger.classList.remove('open');
+    siteMobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+// ===== TIMELINE DATA =====
+const phases = [
+  {
+    num: '01',
+    sub: '到达当天',
+    title: '落地第一件事',
+    color: '#C4805A',
+    services: [
+      {
+        name: '机场接送',
+        desc: '航班到达后在机场等你，直接送到住处。长途飞行之后不用再研究交通。',
+        chips: ['Tullamarine 接机', '大件行李', '灵活时间']
+      },
+      {
+        name: '电话卡办理',
+        desc: '根据你的用量推荐运营商，到店办理或提前准备好，落地就有网络。',
+        chips: ['Optus / Vodafone / Telstra', '套餐对比', '即时激活']
+      },
+      {
+        name: '应急物资准备',
+        desc: '到住处前帮你备好床品、毛巾、基本洗漱用品，当晚就能休息。',
+        chips: ['床品套装', '洗漱用品', '当天可用']
+      }
+    ]
+  },
+  {
+    num: '02',
+    sub: '第一周',
+    title: '把基础搞定',
+    color: '#7A8B6F',
+    services: [
+      {
+        name: '银行开户',
+        desc: '陪同到银行开户，全程帮你沟通，把卡和网银都设置好。',
+        chips: ['ANZ / CommBank / NAB', '现场陪同', '网银设置']
+      },
+      {
+        name: 'Myki 交通卡',
+        desc: '办卡、充值、教你怎么坐车，日常出行不再迷路。',
+        chips: ['办卡充值', '路线规划', '常用线路']
+      },
+      {
+        name: '家具采购与配送',
+        desc: '帮你采购、配送、组装。从床垫到餐桌，不用自己一件件搬。',
+        chips: ['IKEA / Kmart', '二手家具', '配送上门', '组装']
+      }
+    ]
+  },
+  {
+    num: '03',
+    sub: '前两周',
+    title: '生活上轨道',
+    color: '#5C7A9B',
+    services: [
+      {
+        name: 'WiFi 网络安装',
+        desc: '帮你对比运营商、预约安装，不用自己打英文客服电话。',
+        chips: ['NBN 对比', '预约安装', '中文沟通']
+      },
+      {
+        name: '日用品与厨具',
+        desc: '超市带逛或按清单代购，厨具、调料、清洁用品一趟搞定。',
+        chips: ['Woolworths / Coles', '亚洲超市', '清单代购']
+      },
+      {
+        name: '周边环境熟悉',
+        desc: '带你认识附近超市、车站、药房、餐厅，建立日常生活半径。',
+        chips: ['步行范围', '公共交通', '生活配套']
+      }
+    ]
+  }
+];
+
+// ===== RENDER =====
+const detailEl = document.getElementById('tlDetail');
+const nodes = document.querySelectorAll('.tl-node');
+
+function renderPhase(idx) {
+  const p = phases[idx];
+  const svcs = p.services.map((s, i) => `
+    <div class="tl-svc">
+      <div class="tl-svc-index">${String(i + 1).padStart(2, '0')}</div>
+      <div class="tl-svc-content">
+        <div class="tl-svc-name">${s.name}</div>
+        <div class="tl-svc-desc">${s.desc}</div>
+        <div class="tl-chips">${s.chips.map(c => `<span>${c}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  detailEl.innerHTML = `
+    <div class="tl-detail">
+      <div class="tl-detail-header">
+        <div class="tl-detail-num" style="background:${p.color}">${p.num}</div>
+        <div class="tl-detail-info">
+          <div class="tl-detail-sub">${p.sub}</div>
+          <div class="tl-detail-title">${p.title}</div>
+        </div>
+      </div>
+      <div class="tl-detail-body">${svcs}</div>
+    </div>
+  `;
+}
+
+function setActive(idx) {
+  nodes.forEach(n => n.classList.remove('active'));
+  nodes[idx].classList.add('active');
+  renderPhase(idx);
+}
+
+nodes.forEach(node => {
+  node.addEventListener('click', () => {
+    setActive(Number(node.dataset.phase));
+  });
+});
+
+renderPhase(0);
+
+
+// ===== WHO HOVER =====
+const items = document.querySelectorAll('.who .item');
+const leftText = document.getElementById('leftText');
+const defaultText = leftText?.textContent;
+
+const hoverTexts = [
+  '不用到了再慌，提前安排好，落地就是新生活的开始。',
+  '一件一件来，先把最急的搞定，剩下的慢慢理。',
+  '你帮他们迈出第一步，我们帮你把细节处理好。'
+];
+
+items.forEach((item, i) => {
+  item.addEventListener('mouseenter', () => {
+    if (leftText) {
+      leftText.style.opacity = '0';
+      setTimeout(() => {
+        leftText.textContent = hoverTexts[i] || defaultText;
+        leftText.style.opacity = '1';
+      }, 200);
+    }
+  });
+  item.addEventListener('mouseleave', () => {
+    if (leftText) {
+      leftText.style.opacity = '0';
+      setTimeout(() => {
+        leftText.textContent = defaultText;
+        leftText.style.opacity = '1';
+      }, 200);
+    }
+  });
+});
+</script>
+
+</body>
+</html>

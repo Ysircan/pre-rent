@@ -8,9 +8,141 @@
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/pages/home.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  .site-nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background .4s, backdrop-filter .4s;
+  }
+  .site-nav.scrolled {
+    background: rgba(250,246,240,.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .site-nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #2B1D12;
+  }
+  .site-nav-logo img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+  }
+  .site-nav-logo span {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: .3px;
+  }
+  .site-nav-links {
+    display: flex; gap: 36px;
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .site-nav-links a {
+    text-decoration: none;
+    color: #5C3D2E;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .2px;
+    transition: color .3s;
+  }
+  .site-nav-links a:hover { color: #C4805A; }
+
+  .site-nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px; height: 32px;
+    position: relative;
+    z-index: 110;
+  }
+  .site-nav-hamburger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: #2B1D12;
+    border-radius: 2px;
+    position: absolute;
+    left: 5px;
+    transition: all .3s;
+  }
+  .site-nav-hamburger span:nth-child(1) { top: 8px; }
+  .site-nav-hamburger span:nth-child(2) { top: 15px; }
+  .site-nav-hamburger span:nth-child(3) { top: 22px; }
+  .site-nav-hamburger.open span:nth-child(1) { top: 15px; transform: rotate(45deg); }
+  .site-nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .site-nav-hamburger.open span:nth-child(3) { top: 15px; transform: rotate(-45deg); }
+
+  .site-mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(250,246,240,.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .site-mobile-menu.open { display: flex; }
+  .site-mobile-menu a {
+    text-decoration: none;
+    color: #2B1D12;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .site-mobile-menu a:hover { color: #C4805A; }
+
+  .hero {
+    padding-top: 100px;
+  }
+
+  @media (max-width: 900px) {
+    .site-nav { padding: 16px 24px; }
+    .site-nav-links { display: none; }
+    .site-nav-hamburger { display: block; }
+  }
+</style>
 </head>
 
 <body data-page="index">
+
+<!-- NAV -->
+<nav class="site-nav" id="siteNav">
+  <a href="../index.html" class="site-nav-logo">
+    <img src="../assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="Logo">
+    <span>ASAP Group</span>
+  </a>
+  <ul class="site-nav-links">
+    <li><a href="../rent/index.html">住房支持</a></li>
+    <li><a href="../landing/index.html">落地支持</a></li>
+    <li><a href="../book.html">预约</a></li>
+  </ul>
+  <button class="site-nav-hamburger" id="siteHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="site-mobile-menu" id="siteMobileMenu">
+  <a href="../rent/index.html">住房支持</a>
+  <a href="../landing/index.html">落地支持</a>
+  <a href="../book.html">预约</a>
+</div>
 
 <main class="page">
 
@@ -220,5 +352,25 @@
 
 </main>
 
+<script>
+  const siteNav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    siteNav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+  const siteHamburger = document.getElementById('siteHamburger');
+  const siteMobileMenu = document.getElementById('siteMobileMenu');
+  siteHamburger.addEventListener('click', () => {
+    siteHamburger.classList.toggle('open');
+    siteMobileMenu.classList.toggle('open');
+    document.body.style.overflow = siteMobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  siteMobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      siteHamburger.classList.remove('open');
+      siteMobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
 </body>
 </html>
