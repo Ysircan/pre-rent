@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>预约 · ASAP Group</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="../index.html" class="nav-logo">
+    <img src="../assets/images/44bc39668252b828650b6368b4c9a0e.png" alt="Logo">
+    <div class="nav-logo-text">ASAP Group</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../rent/index.html">住房支持</a></li>
+    <li><a href="../landing/index.html">落地支持</a></li>
+    <li><a href="../book/index.html" class="is-active">预约</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../rent/index.html">住房支持</a>
+  <a href="../landing/index.html">落地支持</a>
+  <a href="../book/index.html">预约</a>
+</div>
+
+
+<!-- HERO -->
+<section class="book-hero">
+  <div class="book-eyebrow">预约服务</div>
+  <h1 class="book-title">告诉我们你需要什么，<br>我们来安排。</h1>
+  <p class="book-desc">选好服务、留下联系方式，我们会在 24 小时内和你确认细节。</p>
+</section>
+
+
+<!-- WIZARD -->
+<div class="wizard" id="wizard">
+
+  <!-- Progress -->
+  <div class="wizard-progress">
+    <div class="wizard-step-indicator">
+      <div class="wiz-dot active" data-step="0">1</div>
+      <div class="wiz-line"></div>
+      <div class="wiz-dot" data-step="1">2</div>
+      <div class="wiz-line"></div>
+      <div class="wiz-dot" data-step="2">3</div>
+    </div>
+  </div>
+  <div class="wiz-labels">
+    <div class="wiz-label active">选择服务</div>
+    <div class="wiz-label">联系方式</div>
+    <div class="wiz-label">确认预约</div>
+  </div>
+
+  <!-- Step 1: Select Service -->
+  <div class="wizard-panel active" data-panel="0">
+    <div class="panel-title">你需要哪方面的帮助？</div>
+    <div class="panel-desc">选一个服务类别，再勾选你需要的具体项目。</div>
+
+    <div class="svc-options">
+
+      <div class="svc-option" data-svc="housing">
+        <div class="svc-option-header">
+          <div class="svc-option-left">
+            <div class="svc-option-num">01</div>
+            <div>
+              <div class="svc-option-name">住房支持</div>
+              <div class="svc-option-tag">看房协助 · 租前检查 · 入住准备</div>
+            </div>
+          </div>
+          <div class="svc-check"><div class="svc-check-inner"></div></div>
+        </div>
+        <div class="svc-subitems">
+          <div class="svc-subitems-inner">
+            <div class="sub-chip" data-sub="看房陪同">看房陪同</div>
+            <div class="sub-chip" data-sub="租前检查">租前检查</div>
+            <div class="sub-chip" data-sub="入住前检查">入住前检查</div>
+            <div class="sub-chip" data-sub="远程看房意见">远程看房意见</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc-option" data-svc="landing">
+        <div class="svc-option-header">
+          <div class="svc-option-left">
+            <div class="svc-option-num">02</div>
+            <div>
+              <div class="svc-option-name">落地支持</div>
+              <div class="svc-option-tag">接机 · 银行开户 · 家具采购 · 生活安顿</div>
+            </div>
+          </div>
+          <div class="svc-check"><div class="svc-check-inner"></div></div>
+        </div>
+        <div class="svc-subitems">
+          <div class="svc-subitems-inner">
+            <div class="sub-chip" data-sub="机场接送">机场接送</div>
+            <div class="sub-chip" data-sub="电话卡办理">电话卡办理</div>
+            <div class="sub-chip" data-sub="银行开户">银行开户</div>
+            <div class="sub-chip" data-sub="家具采购">家具采购</div>
+            <div class="sub-chip" data-sub="日用品采购">日用品采购</div>
+            <div class="sub-chip" data-sub="Myki交通卡">Myki交通卡</div>
+            <div class="sub-chip" data-sub="WiFi安装">WiFi安装</div>
+            <div class="sub-chip" data-sub="周边熟悉">周边熟悉</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn-primary" id="toStep2">下一步 →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Contact Info -->
+  <div class="wizard-panel" data-panel="1">
+    <div class="panel-title">怎么联系你？</div>
+    <div class="panel-desc">留下联系方式和基本情况，我们会尽快和你确认。</div>
+
+    <div class="form-fields">
+      <div class="field-row">
+        <div class="field-group">
+          <label>姓名 <span class="req">*</span></label>
+          <input type="text" id="fName" placeholder="你的名字">
+        </div>
+        <div class="field-group">
+          <label>联系方式 <span class="req">*</span></label>
+          <input type="text" id="fContact" placeholder="微信号 / 手机号">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>大概到达日期</label>
+        <input type="date" id="fDate">
+      </div>
+
+      <div class="field-group">
+        <label>补充说明</label>
+        <textarea id="fNote" placeholder="简单说一下你的情况，比如几个人、住哪个区、有什么特别需要的..."></textarea>
+      </div>
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn-ghost" id="backStep1">← 上一步</button>
+      <button class="btn-primary" id="toStep3">下一步 →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Confirm -->
+  <div class="wizard-panel" data-panel="2">
+    <div class="panel-title">确认一下</div>
+    <div class="panel-desc">看看信息对不对，确认后我们就开始安排。</div>
+
+    <div class="confirm-card">
+      <div class="confirm-section">
+        <div class="confirm-label">服务类别</div>
+        <div class="confirm-value" id="cfService">--</div>
+        <div class="confirm-chips" id="cfItems"></div>
+      </div>
+      <div class="confirm-section">
+        <div class="confirm-label">联系信息</div>
+        <div class="confirm-value" id="cfContact">--</div>
+      </div>
+      <div class="confirm-section">
+        <div class="confirm-label">到达日期</div>
+        <div class="confirm-value" id="cfDate">--</div>
+      </div>
+      <div class="confirm-section">
+        <div class="confirm-label">补充说明</div>
+        <div class="confirm-value" id="cfNote">--</div>
+      </div>
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn-ghost" id="backStep2">← 上一步</button>
+      <button class="btn-primary" id="submitBtn">确认预约 →</button>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div class="success-view" id="successView">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h2 class="success-title">预约已提交</h2>
+    <p class="success-desc">我们会在 24 小时内通过你留的联系方式和你确认具体安排。先放松一下吧。</p>
+    <div style="margin-top: 32px;">
+      <a href="../index.html" class="btn-ghost">← 回到首页</a>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-left">© 2026 ASAP Group</div>
+  <div class="footer-right">
+    <a href="../rent/index.html">住房支持</a>
+    <a href="../landing/index.html">落地支持</a>
+    <a href="../book/index.html">预约</a>
+  </div>
+</footer>
+
+
+<script>
+// ===== NAV =====
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+
+// ===== WIZARD STATE =====
+let currentStep = 0;
+let selectedSvc = null;
+let selectedSubs = [];
+
+const dots = document.querySelectorAll('.wiz-dot');
+const lines = document.querySelectorAll('.wiz-line');
+const labels = document.querySelectorAll('.wiz-label');
+const panels = document.querySelectorAll('.wizard-panel');
+
+function goToStep(step) {
+  currentStep = step;
+
+  dots.forEach((d, i) => {
+    d.classList.remove('active', 'done');
+    if (i < step) d.classList.add('done');
+    if (i === step) d.classList.add('active');
+  });
+  lines.forEach((l, i) => {
+    l.classList.toggle('done', i < step);
+  });
+  labels.forEach((l, i) => {
+    l.classList.remove('active');
+    if (i === step) l.classList.add('active');
+  });
+
+  panels.forEach((p, i) => {
+    p.classList.remove('active');
+    if (i === step) p.classList.add('active');
+  });
+}
+
+
+// ===== STEP 1: SERVICE SELECT =====
+const svcOptions = document.querySelectorAll('.svc-option');
+
+svcOptions.forEach(opt => {
+  opt.addEventListener('click', (e) => {
+    if (e.target.classList.contains('sub-chip')) return;
+
+    const svc = opt.dataset.svc;
+
+    svcOptions.forEach(o => {
+      if (o !== opt) o.classList.remove('selected');
+    });
+
+    opt.classList.toggle('selected');
+
+    if (opt.classList.contains('selected')) {
+      selectedSvc = svc;
+    } else {
+      selectedSvc = null;
+    }
+
+    selectedSubs = [];
+    document.querySelectorAll('.sub-chip').forEach(c => c.classList.remove('picked'));
+  });
+});
+
+document.querySelectorAll('.sub-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('picked');
+    const sub = chip.dataset.sub;
+    if (chip.classList.contains('picked')) {
+      if (!selectedSubs.includes(sub)) selectedSubs.push(sub);
+    } else {
+      selectedSubs = selectedSubs.filter(s => s !== sub);
+    }
+  });
+});
+
+
+// ===== NAVIGATION =====
+document.getElementById('toStep2').addEventListener('click', () => {
+  if (!selectedSvc) {
+    alert('请先选择一个服务类别');
+    return;
+  }
+  goToStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.getElementById('backStep1').addEventListener('click', () => {
+  goToStep(0);
+});
+
+document.getElementById('toStep3').addEventListener('click', () => {
+  const name = document.getElementById('fName').value.trim();
+  const contact = document.getElementById('fContact').value.trim();
+
+  if (!name || !contact) {
+    alert('请填写姓名和联系方式');
+    return;
+  }
+
+  const svcNames = { housing: '住房支持', landing: '落地支持' };
+  document.getElementById('cfService').textContent = svcNames[selectedSvc] || '--';
+
+  const cfItems = document.getElementById('cfItems');
+  cfItems.innerHTML = '';
+  if (selectedSubs.length > 0) {
+    selectedSubs.forEach(s => {
+      const sp = document.createElement('span');
+      sp.textContent = s;
+      cfItems.appendChild(sp);
+    });
+  }
+
+  document.getElementById('cfContact').textContent = name + '  ·  ' + contact;
+
+  const dateVal = document.getElementById('fDate').value;
+  document.getElementById('cfDate').textContent = dateVal || '暂未确定';
+
+  const noteVal = document.getElementById('fNote').value.trim();
+  document.getElementById('cfNote').textContent = noteVal || '无';
+
+  goToStep(2);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.getElementById('backStep2').addEventListener('click', () => {
+  goToStep(1);
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  document.querySelectorAll('.wizard-progress, .wiz-labels, .wizard-panel').forEach(el => {
+    el.style.display = 'none';
+  });
+  document.getElementById('successView').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
