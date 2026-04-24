@@ -10,6 +10,100 @@
 <link rel="stylesheet" href="../css/pages/room.css">
 <link rel="stylesheet" href="../css/footer.css">
 
+<style>
+/* page-local additions for the multi-instance furniture tool */
+
+/* hide the always-on rotate hint pseudo element from the global stylesheet */
+.block::after{content:none !important;}
+.block:hover::after{transform:none;}
+
+/* always-on width/height transition so rapid rotations don't race a setTimeout */
+.block{transition:width .2s ease, height .2s ease;}
+.block.dragging{transition:none;}
+
+.block.selected{
+outline:2px solid #c47a4a;
+outline-offset:1px;
+z-index:5;
+}
+
+.block .label{
+pointer-events:none;
+}
+
+.block .tools{
+position:absolute;
+top:-14px;
+right:-14px;
+display:none;
+gap:4px;
+z-index:10;
+}
+
+.block.selected .tools{display:flex;}
+
+.toolBtn{
+width:28px;
+height:28px;
+border-radius:50%;
+border:1px solid rgba(80,70,55,.25);
+background:#fff;
+box-shadow:0 2px 6px rgba(0,0,0,.15);
+cursor:pointer;
+font-size:14px;
+font-weight:700;
+color:#3a342c;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:0;
+line-height:1;
+transition:transform .15s ease, background .15s ease, color .15s ease;
+}
+
+.toolBtn:hover{
+transform:scale(1.12);
+background:#fffaf3;
+color:#c47a4a;
+}
+
+.editPanel .editorTop{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+}
+
+.editPanel .editorTop .title{
+margin-bottom:0;
+}
+
+.editPanel .closeBtn{
+border:none;
+background:transparent;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+color:#6e675e;
+padding:2px 8px;
+line-height:1;
+border-radius:6px;
+}
+
+.editPanel .closeBtn:hover{
+color:#111;
+background:rgba(0,0,0,.06);
+}
+
+.summaryItem.room{
+font-weight:700;
+color:#111;
+border-bottom:1px dashed rgba(80,70,55,.2);
+padding-bottom:6px;
+margin-bottom:8px;
+}
+</style>
+
 </head>
 
 <body data-page="room">
@@ -32,7 +126,7 @@
 <div class="kicker">适配性</div>
 <div class="frame">入住前，很多人都会误判房间是否真的适合自己。</div>
 <div class="lead">大多数租客都会低估空间需求，先从放下一张床开始判断。</div>
-<div class="sub">快速做个可视化检查，拖动家具估算剩余可通行空间。</div>
+<div class="sub">快速做个可视化检查，拖动家具估算剩余可通行空间。点击家具可旋转 90 度。</div>
 </div>
 <div class="miniMeta">
 <div class="pill">比例：1 格 = 0.5 米</div>
@@ -47,7 +141,7 @@
 </div>
 
 <div class="hintRow">
-<div class="hint">提示：先放床。</div>
+<div class="hint">提示：先放床。点击家具可旋转。</div>
 <button class="ghostBtn" id="resetBtn">重置</button>
 </div>
 
@@ -86,24 +180,21 @@
 <script>
 const SCALE_M=0.5;
 const CELL_PX=90;
+const CLICK_DISTANCE_THRESHOLD=6;
+const SHAKE_ANIMATION_MS=300;
 
 const grid=document.getElementById("grid");
 const editorPanel=document.getElementById("editorPanel");
 const summaryList=document.getElementById("summaryList");
 const metaArea=document.getElementById("metaArea");
 
-let active="room";
-
-let sizes={
-room:{w:3,h:3},
+const DEFAULT_SIZES={
 bed:{w:1.5,h:2},
 desk:{w:1.2,h:0.6},
 wardrobe:{w:1.5,h:0.6},
 chair:{w:0.5,h:0.5},
 sofa:{w:1.4,h:0.8}
 };
-
-let objects={};
 
 const LABELS={
 room:"房间",
@@ -114,109 +205,358 @@ chair:"椅子",
 sofa:"沙发"
 };
 
-document.querySelectorAll(".sectionBtn").forEach(btn=>{
-btn.onclick=()=>{
-document.querySelectorAll(".sectionBtn").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-active=btn.dataset.key;
-renderEditor();
-};
+const TYPE_ORDER=["bed","desk","wardrobe","chair","sofa"];
+
+let room={w:3,h:3};
+let instances=[];
+let counter={bed:0,desk:0,wardrobe:0,chair:0,sofa:0};
+let selectedId=null;
+
+function metersToPixels(v){return v/SCALE_M*CELL_PX;}
+
+function getGridBoundsPx(){
+return {width:grid.clientWidth,height:grid.clientHeight};
+}
+
+function findInstance(id){
+return instances.find(i=>i.id===id);
+}
+
+function typeCount(type){
+return instances.filter(i=>i.type===type).length;
+}
+
+function instanceLabel(inst){
+const num=inst.id.split("_")[1];
+return typeCount(inst.type)>1
+? `${LABELS[inst.type]} #${num}`
+: LABELS[inst.type];
+}
+
+function refreshInstanceLabels(){
+instances.forEach(inst=>{
+const label=inst.el.querySelector(".label");
+if(label) label.textContent=instanceLabel(inst);
 });
-
-function renderEditor(){
-editorPanel.innerHTML="";
-
-if(active==="room"){
-editorPanel.innerHTML=`
-<div class="title">房间尺寸</div>
-宽度（米）<input id="objW" value="${sizes.room.w}">
-高度（米）<input id="objH" value="${sizes.room.h}">
-<button id="applyObj" class="apply">应用尺寸</button>`;
-}else{
-editorPanel.innerHTML=`
-<div class="title">${LABELS[active]}尺寸</div>
-宽度（米）<input id="objW" value="${sizes[active].w}">
-长度（米）<input id="objH" value="${sizes[active].h}">
-<button id="applyObj" class="apply">应用尺寸</button>`;
-if(!objects[active]) createObject(active);
 }
 
-document.getElementById("applyObj").onclick=applySize;
+function applyRoomSize(){
+grid.style.width=Math.floor(room.w/SCALE_M)*CELL_PX+"px";
+grid.style.height=Math.floor(room.h/SCALE_M)*CELL_PX+"px";
+metaArea.textContent=`面积 ${(room.w*room.h).toFixed(2)} 平方米`;
 }
 
-function applySize(){
-const w=parseFloat(objW.value);
-const h=parseFloat(objH.value);
-sizes[active]={w,h};
-
-if(active==="room"){
-grid.style.width=Math.floor(w/SCALE_M)*CELL_PX+"px";
-grid.style.height=Math.floor(h/SCALE_M)*CELL_PX+"px";
-metaArea.textContent=`面积 ${(w*h).toFixed(2)} 平方米`;
-}else{
-const el=objects[active];
-el.style.width=(w/SCALE_M)*CELL_PX+"px";
-el.style.height=(h/SCALE_M)*CELL_PX+"px";
+function clampInstance(inst){
+const bounds=getGridBoundsPx();
+const w=metersToPixels(inst.w);
+const h=metersToPixels(inst.h);
+inst.left=Math.max(0,Math.min(inst.left,bounds.width-w));
+inst.top=Math.max(0,Math.min(inst.top,bounds.height-h));
 }
 
+function applyInstanceSize(inst){
+inst.el.style.width=metersToPixels(inst.w)+"px";
+inst.el.style.height=metersToPixels(inst.h)+"px";
+}
+
+function applyInstancePosition(inst){
+inst.el.style.left=inst.left+"px";
+inst.el.style.top=inst.top+"px";
+}
+
+function findInitialPosition(inst){
+const bounds=getGridBoundsPx();
+const w=metersToPixels(inst.w);
+const h=metersToPixels(inst.h);
+const stepX=Math.max(20,Math.floor(w/4));
+const stepY=Math.max(20,Math.floor(h/4));
+for(let y=10;y+h<=bounds.height-10;y+=stepY){
+for(let x=10;x+w<=bounds.width-10;x+=stepX){
+let collides=false;
+for(const other of instances){
+if(other===inst) continue;
+const ow=metersToPixels(other.w);
+const oh=metersToPixels(other.h);
+if(x<other.left+ow && x+w>other.left && y<other.top+oh && y+h>other.top){
+collides=true;break;
+}
+}
+if(!collides){inst.left=x;inst.top=y;return;}
+}
+}
+inst.left=10;
+inst.top=10;
+clampInstance(inst);
+}
+
+function addInstance(type){
+counter[type]+=1;
+const id=`${type}_${counter[type]}`;
+const def=DEFAULT_SIZES[type];
+const inst={id,type,w:def.w,h:def.h,left:20,top:20,el:null};
+
+const el=document.createElement("div");
+el.className="block "+type;
+el.dataset.id=id;
+el.style.width=metersToPixels(inst.w)+"px";
+el.style.height=metersToPixels(inst.h)+"px";
+
+const label=document.createElement("span");
+label.className="label";
+el.appendChild(label);
+
+inst.el=el;
+findInitialPosition(inst);
+applyInstancePosition(inst);
+attachInstanceEvents(inst);
+addToolButtons(inst);
+grid.appendChild(el);
+instances.push(inst);
+
+refreshInstanceLabels();
+selectInstance(id);
 updateSummary();
 }
 
-function createObject(type){
-const el=document.createElement("div");
-el.className="block "+type;
-el.textContent=LABELS[type];
-el.style.width=(sizes[type].w/SCALE_M)*CELL_PX+"px";
-el.style.height=(sizes[type].h/SCALE_M)*CELL_PX+"px";
-el.style.left="20px";
-el.style.top="20px";
-makeDrag(el);
-grid.appendChild(el);
-objects[type]=el;
+function addToolButtons(inst){
+const tools=document.createElement("div");
+tools.className="tools";
+
+const rotateBtn=document.createElement("button");
+rotateBtn.type="button";
+rotateBtn.className="toolBtn";
+rotateBtn.textContent="↻";
+rotateBtn.title="旋转 90°";
+rotateBtn.addEventListener("mousedown",e=>{e.stopPropagation();});
+rotateBtn.addEventListener("click",e=>{
+e.stopPropagation();
+tryRotateInstance(inst.id);
+});
+
+const delBtn=document.createElement("button");
+delBtn.type="button";
+delBtn.className="toolBtn";
+delBtn.textContent="×";
+delBtn.title="删除";
+delBtn.addEventListener("mousedown",e=>{e.stopPropagation();});
+delBtn.addEventListener("click",e=>{
+e.stopPropagation();
+removeInstance(inst.id);
+});
+
+tools.appendChild(rotateBtn);
+tools.appendChild(delBtn);
+inst.el.appendChild(tools);
 }
 
-function makeDrag(el){
-let offsetX=0,offsetY=0;
-el.onmousedown=e=>{
-const rect=el.getBoundingClientRect();
-offsetX=e.clientX-rect.left;
-offsetY=e.clientY-rect.top;
-document.onmousemove=ev=>{
+function attachInstanceEvents(inst){
+const el=inst.el;
+el.addEventListener("mousedown",e=>{
+if(e.button!==0) return;
+if(e.target.closest(".tools")) return;
+e.preventDefault();
+
+const startX=e.clientX, startY=e.clientY;
 const gridRect=grid.getBoundingClientRect();
-el.style.left=(ev.clientX-gridRect.left-offsetX)+"px";
-el.style.top=(ev.clientY-gridRect.top-offsetY)+"px";
+const elRect=el.getBoundingClientRect();
+const offsetX=e.clientX-elRect.left;
+const offsetY=e.clientY-elRect.top;
+let moved=false;
+
+const onMove=ev=>{
+const dist=Math.hypot(ev.clientX-startX,ev.clientY-startY);
+if(!moved && dist>=CLICK_DISTANCE_THRESHOLD){
+moved=true;
+el.classList.add("dragging");
+}
+if(!moved) return;
+const bounds=getGridBoundsPx();
+const w=el.offsetWidth, h=el.offsetHeight;
+let nx=ev.clientX-gridRect.left-offsetX;
+let ny=ev.clientY-gridRect.top-offsetY;
+nx=Math.max(0,Math.min(nx,bounds.width-w));
+ny=Math.max(0,Math.min(ny,bounds.height-h));
+inst.left=nx; inst.top=ny;
+el.style.left=nx+"px";
+el.style.top=ny+"px";
 };
-document.onmouseup=()=>{document.onmousemove=null;}
+
+const onUp=()=>{
+document.removeEventListener("mousemove",onMove);
+document.removeEventListener("mouseup",onUp);
+el.classList.remove("dragging");
+if(!moved){
+selectInstance(inst.id);
+}
 };
+
+document.addEventListener("mousemove",onMove);
+document.addEventListener("mouseup",onUp);
+});
+}
+
+function selectInstance(id){
+selectedId=id;
+instances.forEach(i=>i.el.classList.toggle("selected",i.id===id));
+renderEditor();
+updateSectionBtnHighlight();
+}
+
+function deselect(){
+selectedId=null;
+instances.forEach(i=>i.el.classList.remove("selected"));
+renderEditor();
+updateSectionBtnHighlight();
+}
+
+function removeInstance(id){
+const idx=instances.findIndex(i=>i.id===id);
+if(idx<0) return;
+instances[idx].el.remove();
+instances.splice(idx,1);
+if(selectedId===id) selectedId=null;
+refreshInstanceLabels();
+renderEditor();
+updateSectionBtnHighlight();
+updateSummary();
+}
+
+function triggerShake(el){
+el.classList.remove("shake");
+void el.offsetWidth;
+el.classList.add("shake");
+setTimeout(()=>el.classList.remove("shake"),SHAKE_ANIMATION_MS);
+}
+
+function tryRotateInstance(id){
+const inst=findInstance(id);
+if(!inst) return;
+const newW=inst.h, newH=inst.w;
+const bounds=getGridBoundsPx();
+const newWPx=metersToPixels(newW);
+const newHPx=metersToPixels(newH);
+
+if(newWPx>bounds.width || newHPx>bounds.height){
+triggerShake(inst.el);
+return;
+}
+
+let newLeft=inst.left;
+let newTop=inst.top;
+if(newLeft+newWPx>bounds.width) newLeft=bounds.width-newWPx;
+if(newTop+newHPx>bounds.height) newTop=bounds.height-newHPx;
+if(newLeft<0) newLeft=0;
+if(newTop<0) newTop=0;
+
+inst.w=newW; inst.h=newH;
+inst.left=newLeft; inst.top=newTop;
+
+inst.el.style.width=newWPx+"px";
+inst.el.style.height=newHPx+"px";
+inst.el.style.left=newLeft+"px";
+inst.el.style.top=newTop+"px";
+
+if(selectedId===id) renderEditor();
+updateSummary();
+}
+
+function renderEditor(){
+editorPanel.innerHTML="";
+const sel=selectedId?findInstance(selectedId):null;
+if(sel){
+editorPanel.innerHTML=`
+<div class="editorTop">
+<div class="title">${instanceLabel(sel)}尺寸</div>
+<button type="button" class="closeBtn" id="closeEdit" title="返回房间">×</button>
+</div>
+宽度（米）<input id="objW" value="${sel.w}">
+长度（米）<input id="objH" value="${sel.h}">
+<button id="applyObj" class="apply">应用尺寸</button>`;
+document.getElementById("closeEdit").onclick=deselect;
+document.getElementById("applyObj").onclick=()=>{
+const w=parseFloat(document.getElementById("objW").value);
+const h=parseFloat(document.getElementById("objH").value);
+if(!isFinite(w)||!isFinite(h)||w<=0||h<=0) return;
+sel.w=w; sel.h=h;
+applyInstanceSize(sel);
+clampInstance(sel);
+applyInstancePosition(sel);
+updateSummary();
+};
+}else{
+editorPanel.innerHTML=`
+<div class="title">${LABELS.room}尺寸</div>
+宽度（米）<input id="objW" value="${room.w}">
+高度（米）<input id="objH" value="${room.h}">
+<button id="applyObj" class="apply">应用尺寸</button>`;
+document.getElementById("applyObj").onclick=()=>{
+const w=parseFloat(document.getElementById("objW").value);
+const h=parseFloat(document.getElementById("objH").value);
+if(!isFinite(w)||!isFinite(h)||w<=0||h<=0) return;
+room.w=w; room.h=h;
+applyRoomSize();
+instances.forEach(inst=>{
+clampInstance(inst);
+applyInstancePosition(inst);
+});
+updateSummary();
+};
+}
+}
+
+function updateSectionBtnHighlight(){
+document.querySelectorAll(".sectionBtn").forEach(b=>b.classList.remove("active"));
+if(!selectedId){
+const roomBtn=document.querySelector('.sectionBtn[data-key="room"]');
+if(roomBtn) roomBtn.classList.add("active");
+}
 }
 
 function updateSummary(){
 summaryList.innerHTML="";
-Object.keys(sizes).forEach(key=>{
-const s=sizes[key];
-summaryList.innerHTML+=`
-<div class="summaryItem">
-<span>${LABELS[key]}</span>
-<span>${s.w}米 × ${s.h}米</span>
-</div>`;
+const roomItem=document.createElement("div");
+roomItem.className="summaryItem room";
+roomItem.innerHTML=`<span>${LABELS.room}</span><span>${room.w}米 × ${room.h}米</span>`;
+summaryList.appendChild(roomItem);
+
+TYPE_ORDER.forEach(type=>{
+instances
+.filter(i=>i.type===type)
+.sort((a,b)=>parseInt(a.id.split("_")[1],10)-parseInt(b.id.split("_")[1],10))
+.forEach(inst=>{
+const item=document.createElement("div");
+item.className="summaryItem";
+item.innerHTML=`<span>${instanceLabel(inst)}</span><span>${inst.w}米 × ${inst.h}米</span>`;
+summaryList.appendChild(item);
+});
 });
 }
 
+document.querySelectorAll(".sectionBtn").forEach(btn=>{
+btn.addEventListener("click",()=>{
+const key=btn.dataset.key;
+if(key==="room") deselect();
+else addInstance(key);
+});
+});
+
+grid.addEventListener("mousedown",e=>{
+if(e.target===grid) deselect();
+});
+
 document.getElementById("resetBtn").onclick=()=>{
-Object.values(objects).forEach(el=>el.remove());
-objects={};
-active="room";
-document.querySelectorAll(".sectionBtn").forEach(b=>b.classList.remove("active"));
-document.querySelector('.sectionBtn[data-key="room"]').classList.add("active");
+instances.forEach(i=>i.el.remove());
+instances=[];
+counter={bed:0,desk:0,wardrobe:0,chair:0,sofa:0};
+selectedId=null;
 renderEditor();
+updateSectionBtnHighlight();
 updateSummary();
 };
 
-grid.style.width=Math.floor(sizes.room.w/SCALE_M)*CELL_PX+"px";
-grid.style.height=Math.floor(sizes.room.h/SCALE_M)*CELL_PX+"px";
-metaArea.textContent=`面积 ${(sizes.room.w*sizes.room.h).toFixed(2)} 平方米`;
-
+applyRoomSize();
 renderEditor();
+updateSectionBtnHighlight();
 updateSummary();
 </script>
 <script src="../js/header.js"></script>

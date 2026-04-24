@@ -1,264 +1,426 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Professional · RentScope</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>专业服务 · RentScope</title>
+
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
 
 <style>
 
-/* ===============================
-RESET
-================================ */
+/* =====================================
+   PROFESSIONAL SERVICE PAGE
+===================================== */
 
-*{box-sizing:border-box;}
-
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+body[data-page="professional"]{
 background:#ECE7DF;
 color:#111;
-overflow:hidden;
 }
 
-/* ===============================
-LAYOUT
-================================ */
-
-.page{
-height:100vh;
+.pro-page{
+min-height:100vh;
 max-width:1250px;
 margin:0 auto;
-padding:80px 20px;
+padding:80px 28px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+gap:40px;
+position:relative;
+}
+
+/* =====================================
+   SIDE TYPOGRAPHY (静态水印)
+===================================== */
+
+.pro-typeFog{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+
+--stage-w:1250px;
+--sideW:max(0px, calc((100vw - var(--stage-w)) / 2));
+}
+
+.pro-typeCol{
+position:absolute;
+top:0;
+bottom:0;
+width:var(--sideW);
+padding:140px 0 80px 0;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
 }
 
-/* ===============================
-TITLE
-================================ */
-
-.heroBlock{
-margin-bottom:30px;
+.pro-typeCol.left{
+left:-80px;
+align-items:flex-start;
+transform:rotate(-8deg);
+transform-origin:left top;
 }
 
-.heroSmall{
+.pro-typeCol.right{
+right:-80px;
+align-items:flex-end;
+transform:rotate(8deg);
+transform-origin:right top;
+}
+
+.pro-typeBlock{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.pro-typeBig{
+font-size:clamp(48px,3vw,70px);
+font-weight:900;
+letter-spacing:6px;
+text-transform:uppercase;
+color:rgba(0,0,0,.035);
+}
+
+.pro-typeMid{
+font-size:clamp(18px,1.4vw,24px);
+font-weight:800;
+letter-spacing:3px;
+text-transform:uppercase;
+color:rgba(0,0,0,.05);
+}
+
+.pro-typeTiny{
+font-size:11px;
+font-weight:800;
+letter-spacing:1.5px;
+text-transform:uppercase;
+color:rgba(0,0,0,.07);
+}
+
+/* =====================================
+   HERO TITLE BLOCK
+===================================== */
+
+.pro-heroBlock{
+position:relative;
+z-index:2;
+}
+
+.pro-heroSmall{
 font-size:12px;
 letter-spacing:2px;
 color:#8B857D;
-margin-bottom:12px;
+margin-bottom:14px;
+font-weight:700;
 }
 
-.heroTitle{
-font-size:84px; /* ⭐ 更大气 */
-font-weight:900;
-margin:0 0 12px;
+.pro-heroTitle{
+font-size:84px;
+font-weight:700;
+letter-spacing:-1.5px;
+margin:0 0 14px;
+line-height:1.05;
+color:#111;
 }
 
-.heroSub{
-font-size:18px;
+.pro-heroSub{
+font-size:19px;
 color:#6C655E;
 }
 
-/* ===============================
-MASTER STAGE（⭐核心改动）
-================================ */
+/* =====================================
+   MASTER STAGE
+===================================== */
 
-.stage{
+.pro-stage{
 display:flex;
 flex-direction:column;
-gap:18px; /* ⭐ 拉近split和panel */
+gap:22px;
+position:relative;
+z-index:2;
 }
 
-/* ===============================
-SPLIT HERO（舞台）
-================================ */
+/* =====================================
+   SPLIT HERO (对比大横条)
+===================================== */
 
-.splitHero{
-height:340px; /* ⭐ 更高 */
+.pro-splitHero{
+height:320px;
 display:grid;
 grid-template-columns:1fr 1fr;
-border-radius:34px;
+border-radius:28px;
 overflow:hidden;
-box-shadow:0 35px 70px rgba(70,50,30,.08);
+box-shadow:0 30px 60px rgba(70,50,30,.07);
+border:1px solid rgba(80,70,55,.10);
 }
 
-.splitLeft{
-background:#CFC8BE;
+.pro-splitLeft{
+background:#E4DED3;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-padding:70px;
+padding:60px;
 }
 
-.splitRight{
-background:#F6F3EE;
+.pro-splitRight{
+background:#F7F4EF;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-padding:70px;
+padding:60px;
+border-left:1px solid rgba(80,70,55,.12);
 }
 
-.splitLabel{
+.pro-splitLabel{
 font-size:11px;
-letter-spacing:2px;
+letter-spacing:2.5px;
 color:#8B857D;
-margin-bottom:16px;
+margin-bottom:18px;
+font-weight:700;
 }
 
-.splitText{
-font-size:32px;
-font-weight:900;
-line-height:1.4;
-max-width:360px;
+.pro-splitLabel .zh{
+color:#4f4a43;
+margin-left:6px;
+letter-spacing:1px;
 }
 
-/* ===============================
-SIGNALS（压进舞台）
-================================ */
+.pro-splitText{
+font-size:28px;
+font-weight:700;
+line-height:1.45;
+max-width:400px;
+letter-spacing:-.3px;
+color:#1a1a1a;
+}
 
-.proPanel{
-background:#F4F0EA;
-border-radius:26px;
+/* =====================================
+   SIGNALS PANEL
+===================================== */
+
+.pro-panel{
+background:#F7F4EF;
+border-radius:24px;
 border:1px solid rgba(80,70,55,.18);
-padding:34px 40px;
+padding:42px 48px;
+box-shadow:0 24px 50px rgba(70,50,30,.05);
 }
 
-.proTag{
+.pro-tag{
 font-size:11px;
-letter-spacing:2px;
+letter-spacing:2.5px;
 color:#8B857D;
-margin-bottom:10px;
+margin-bottom:12px;
+font-weight:700;
 }
 
-.proTitle{
-font-size:38px;
-font-weight:900;
-margin:0 0 22px;
+.pro-title{
+font-size:40px;
+font-weight:700;
+margin:0 0 26px;
+letter-spacing:-.5px;
+color:#111;
 }
 
-.proGrid{
+.pro-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:14px;
 }
 
-.proItem{
-height:78px;
+.pro-item{
+height:82px;
 background:#ECE7DF;
-border-radius:18px;
+border:1px solid rgba(80,70,55,.08);
+border-radius:16px;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:15px;
-font-weight:700;
-color:#3A3733;
-}
-
-/* ===============================
-CLOSING
-================================ */
-
-.closing{
+font-weight:600;
+color:#2a2a2a;
 text-align:center;
-margin-top:8px;
+padding:0 16px;
+letter-spacing:.2px;
 }
 
-.closingText{
-font-size:38px;
-font-weight:900;
-letter-spacing:-.3px;
+/* =====================================
+   CLOSING
+===================================== */
+
+.pro-closing{
+text-align:center;
+position:relative;
+z-index:2;
+padding-top:12px;
 }
 
-/* ===============================
-RESPONSIVE
-================================ */
+.pro-closingText{
+font-size:34px;
+font-weight:700;
+letter-spacing:-.5px;
+color:#111;
+margin-bottom:18px;
+}
+
+.pro-closingFoot{
+font-size:14px;
+color:#7a7369;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
 
 @media(max-width:900px){
 
-.heroTitle{font-size:48px;}
+.pro-heroTitle{font-size:48px;}
+.pro-heroSub{font-size:16px;}
 
-.splitHero{
+.pro-splitHero{
 grid-template-columns:1fr;
 height:auto;
 }
 
-.proGrid{
+.pro-splitRight{
+border-left:none;
+border-top:1px solid rgba(80,70,55,.12);
+}
+
+.pro-splitText{font-size:20px;}
+
+.pro-panel{padding:28px 24px;}
+.pro-title{font-size:28px;}
+
+.pro-grid{
 grid-template-columns:1fr;
 }
+
+.pro-closingText{font-size:22px;}
+
+.pro-typeFog{display:none;}
 
 }
 
 </style>
+
 </head>
 
-<body>
+<body data-page="professional">
 
-<main class="page">
+<div id="header-placeholder"></div>
 
-<!-- TITLE -->
-<div class="heroBlock">
-<div class="heroSmall">BEYOND COMPLIANCE</div>
-<h1 class="heroTitle">Professional</h1>
-<div class="heroSub">A different way of seeing.</div>
+<!-- SIDE TYPOGRAPHY -->
+<div class="pro-typeFog">
+
+  <div class="pro-typeCol left">
+    <div class="pro-typeBlock">
+      <div class="pro-typeBig">SEALING</div>
+      <div class="pro-typeBig">WEAR</div>
+      <div class="pro-typeBig">SIGNALS</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeMid">DURABILITY</div>
+      <div class="pro-typeMid">RECORD</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeTiny">BEYOND COMPLIANCE</div>
+    </div>
+  </div>
+
+  <div class="pro-typeCol right">
+    <div class="pro-typeBlock">
+      <div class="pro-typeBig">CONDITION</div>
+      <div class="pro-typeBig">REPORT</div>
+      <div class="pro-typeBig">DETAILS</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeMid">CRAFTSMANSHIP</div>
+      <div class="pro-typeMid">INSIGHT</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeTiny">READ · NOT INSPECT</div>
+    </div>
+  </div>
+
 </div>
 
-<!-- ⭐ MASTER STAGE -->
-<div class="stage">
+<main class="pro-page">
 
-<!-- SPLIT HERO -->
-<div class="splitHero">
-
-<div class="splitLeft">
-<div>
-<div class="splitLabel">STANDARD VIEWING</div>
-<div class="splitText">
-Looks fine in photos.<br>
-Quick walkthrough.
-</div>
-</div>
+<!-- HERO TITLE -->
+<div class="pro-heroBlock">
+<div class="pro-heroSmall">BEYOND COMPLIANCE</div>
+<h1 class="pro-heroTitle">专业服务</h1>
+<div class="pro-heroSub">看得见的是基础,看不见的才关键。</div>
 </div>
 
-<div class="splitRight">
-<div>
-<div class="splitLabel">PROFESSIONAL MODE</div>
-<div class="splitText">
-Signals beyond standards.<br>
-Reading what others miss.
-</div>
-</div>
-</div>
+<!-- MASTER STAGE -->
+<div class="pro-stage">
 
-</div>
+  <!-- SPLIT HERO -->
+  <div class="pro-splitHero">
 
-<!-- PANEL -->
-<div class="proPanel">
-<div class="proTag">PROFESSIONAL MODE</div>
-<h2 class="proTitle">Signals beyond standards</h2>
+    <div class="pro-splitLeft">
+      <div>
+        <div class="pro-splitLabel">STANDARD VIEWING<span class="zh">· 打卡式看房</span></div>
+        <div class="pro-splitText">
+          十五分钟走一圈,<br>
+          拍几张照就签约。
+        </div>
+      </div>
+    </div>
 
-<div class="proGrid">
-<div class="proItem">subtle airflow behaviour</div>
-<div class="proItem">wear vs defect distinction</div>
-<div class="proItem">fixture placement friction</div>
-<div class="proItem">heating coverage logic</div>
-<div class="proItem">space usability signals</div>
-<div class="proItem">compliance edge cases</div>
-</div>
-</div>
+    <div class="pro-splitRight">
+      <div>
+        <div class="pro-splitLabel">PROFESSIONAL MODE<span class="zh">· 专业视角</span></div>
+        <div class="pro-splitText">
+          读门锁、看墙体、<br>
+          判断住下来的真实体验。
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIGNALS PANEL -->
+  <div class="pro-panel">
+    <div class="pro-tag">PROFESSIONAL MODE · 我们读什么</div>
+    <h2 class="pro-title">Signals beyond standards</h2>
+
+    <div class="pro-grid">
+      <div class="pro-item">门窗密封 · 气流判断</div>
+      <div class="pro-item">磨损痕迹 · 年限判断</div>
+      <div class="pro-item">墙面线索 · 渗漏预判</div>
+      <div class="pro-item">采光遮挡 · 视线隐患</div>
+      <div class="pro-item">厨浴实测 · 设施状态</div>
+      <div class="pro-item">Condition Report 记录点</div>
+    </div>
+  </div>
 
 </div>
 
 <!-- CLOSING -->
-<div class="closing">
-<div class="closingText">
-We don’t inspect more — we read differently.
-</div>
+<div class="pro-closing">
+  <div class="pro-closingText">
+    我们不比谁看得多,而是读得不一样。
+  </div>
+  <div class="pro-closingFoot">
+    本页仅作参考,具体服务范围以沟通确认为准。
+  </div>
 </div>
 
 </main>
+
+<div id="footer-placeholder"></div>
+
+<script src="../js/header.js"></script>
+<script src="../js/footer.js"></script>
 
 </body>
 </html>

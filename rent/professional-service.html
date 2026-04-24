@@ -1,25 +1,426 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>专业服务 · RentScope</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>专业服务 · RentScope</title>
 
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/header.css">
-  <link rel="stylesheet" href="../css/pages/professional.css">
-  <link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
+
+<style>
+
+/* =====================================
+   PROFESSIONAL SERVICE PAGE
+===================================== */
+
+body[data-page="professional"]{
+background:#ECE7DF;
+color:#111;
+}
+
+.pro-page{
+min-height:100vh;
+max-width:1250px;
+margin:0 auto;
+padding:80px 28px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+gap:40px;
+position:relative;
+}
+
+/* =====================================
+   SIDE TYPOGRAPHY (静态水印)
+===================================== */
+
+.pro-typeFog{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+
+--stage-w:1250px;
+--sideW:max(0px, calc((100vw - var(--stage-w)) / 2));
+}
+
+.pro-typeCol{
+position:absolute;
+top:0;
+bottom:0;
+width:var(--sideW);
+padding:140px 0 80px 0;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.pro-typeCol.left{
+left:-80px;
+align-items:flex-start;
+transform:rotate(-8deg);
+transform-origin:left top;
+}
+
+.pro-typeCol.right{
+right:-80px;
+align-items:flex-end;
+transform:rotate(8deg);
+transform-origin:right top;
+}
+
+.pro-typeBlock{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.pro-typeBig{
+font-size:clamp(48px,3vw,70px);
+font-weight:900;
+letter-spacing:6px;
+text-transform:uppercase;
+color:rgba(0,0,0,.035);
+}
+
+.pro-typeMid{
+font-size:clamp(18px,1.4vw,24px);
+font-weight:800;
+letter-spacing:3px;
+text-transform:uppercase;
+color:rgba(0,0,0,.05);
+}
+
+.pro-typeTiny{
+font-size:11px;
+font-weight:800;
+letter-spacing:1.5px;
+text-transform:uppercase;
+color:rgba(0,0,0,.07);
+}
+
+/* =====================================
+   HERO TITLE BLOCK
+===================================== */
+
+.pro-heroBlock{
+position:relative;
+z-index:2;
+}
+
+.pro-heroSmall{
+font-size:12px;
+letter-spacing:2px;
+color:#8B857D;
+margin-bottom:14px;
+font-weight:700;
+}
+
+.pro-heroTitle{
+font-size:84px;
+font-weight:700;
+letter-spacing:-1.5px;
+margin:0 0 14px;
+line-height:1.05;
+color:#111;
+}
+
+.pro-heroSub{
+font-size:19px;
+color:#6C655E;
+}
+
+/* =====================================
+   MASTER STAGE
+===================================== */
+
+.pro-stage{
+display:flex;
+flex-direction:column;
+gap:22px;
+position:relative;
+z-index:2;
+}
+
+/* =====================================
+   SPLIT HERO (对比大横条)
+===================================== */
+
+.pro-splitHero{
+height:320px;
+display:grid;
+grid-template-columns:1fr 1fr;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 30px 60px rgba(70,50,30,.07);
+border:1px solid rgba(80,70,55,.10);
+}
+
+.pro-splitLeft{
+background:#E4DED3;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:60px;
+}
+
+.pro-splitRight{
+background:#F7F4EF;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:60px;
+border-left:1px solid rgba(80,70,55,.12);
+}
+
+.pro-splitLabel{
+font-size:11px;
+letter-spacing:2.5px;
+color:#8B857D;
+margin-bottom:18px;
+font-weight:700;
+}
+
+.pro-splitLabel .zh{
+color:#4f4a43;
+margin-left:6px;
+letter-spacing:1px;
+}
+
+.pro-splitText{
+font-size:28px;
+font-weight:700;
+line-height:1.45;
+max-width:400px;
+letter-spacing:-.3px;
+color:#1a1a1a;
+}
+
+/* =====================================
+   SIGNALS PANEL
+===================================== */
+
+.pro-panel{
+background:#F7F4EF;
+border-radius:24px;
+border:1px solid rgba(80,70,55,.18);
+padding:42px 48px;
+box-shadow:0 24px 50px rgba(70,50,30,.05);
+}
+
+.pro-tag{
+font-size:11px;
+letter-spacing:2.5px;
+color:#8B857D;
+margin-bottom:12px;
+font-weight:700;
+}
+
+.pro-title{
+font-size:40px;
+font-weight:700;
+margin:0 0 26px;
+letter-spacing:-.5px;
+color:#111;
+}
+
+.pro-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+.pro-item{
+height:82px;
+background:#ECE7DF;
+border:1px solid rgba(80,70,55,.08);
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:15px;
+font-weight:600;
+color:#2a2a2a;
+text-align:center;
+padding:0 16px;
+letter-spacing:.2px;
+}
+
+/* =====================================
+   CLOSING
+===================================== */
+
+.pro-closing{
+text-align:center;
+position:relative;
+z-index:2;
+padding-top:12px;
+}
+
+.pro-closingText{
+font-size:34px;
+font-weight:700;
+letter-spacing:-.5px;
+color:#111;
+margin-bottom:18px;
+}
+
+.pro-closingFoot{
+font-size:14px;
+color:#7a7369;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width:900px){
+
+.pro-heroTitle{font-size:48px;}
+.pro-heroSub{font-size:16px;}
+
+.pro-splitHero{
+grid-template-columns:1fr;
+height:auto;
+}
+
+.pro-splitRight{
+border-left:none;
+border-top:1px solid rgba(80,70,55,.12);
+}
+
+.pro-splitText{font-size:20px;}
+
+.pro-panel{padding:28px 24px;}
+.pro-title{font-size:28px;}
+
+.pro-grid{
+grid-template-columns:1fr;
+}
+
+.pro-closingText{font-size:22px;}
+
+.pro-typeFog{display:none;}
+
+}
+
+</style>
+
 </head>
 
 <body data-page="professional">
 
-  <div id="header-placeholder"></div>
+<div id="header-placeholder"></div>
 
-  <main class="page">
-    <h1>专业服务</h1>
-  </main>
-  <div id="footer-placeholder"></div>
-  <script src="../js/header.js"></script>
-  <script src="../js/footer.js"></script>
+<!-- SIDE TYPOGRAPHY -->
+<div class="pro-typeFog">
+
+  <div class="pro-typeCol left">
+    <div class="pro-typeBlock">
+      <div class="pro-typeBig">SEALING</div>
+      <div class="pro-typeBig">WEAR</div>
+      <div class="pro-typeBig">SIGNALS</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeMid">DURABILITY</div>
+      <div class="pro-typeMid">RECORD</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeTiny">BEYOND COMPLIANCE</div>
+    </div>
+  </div>
+
+  <div class="pro-typeCol right">
+    <div class="pro-typeBlock">
+      <div class="pro-typeBig">CONDITION</div>
+      <div class="pro-typeBig">REPORT</div>
+      <div class="pro-typeBig">DETAILS</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeMid">CRAFTSMANSHIP</div>
+      <div class="pro-typeMid">INSIGHT</div>
+    </div>
+    <div class="pro-typeBlock">
+      <div class="pro-typeTiny">READ · NOT INSPECT</div>
+    </div>
+  </div>
+
+</div>
+
+<main class="pro-page">
+
+<!-- HERO TITLE -->
+<div class="pro-heroBlock">
+<div class="pro-heroSmall">BEYOND COMPLIANCE</div>
+<h1 class="pro-heroTitle">专业服务</h1>
+<div class="pro-heroSub">由本地木工背景的专业人员判断。</div>
+</div>
+
+<!-- MASTER STAGE -->
+<div class="pro-stage">
+
+  <!-- SPLIT HERO -->
+  <div class="pro-splitHero">
+
+    <div class="pro-splitLeft">
+      <div>
+        <div class="pro-splitLabel">STANDARD VIEWING<span class="zh">· 打卡式看房</span></div>
+        <div class="pro-splitText">
+          十五分钟走一圈,<br>
+          拍几张照就签约。
+        </div>
+      </div>
+    </div>
+
+    <div class="pro-splitRight">
+      <div>
+        <div class="pro-splitLabel">PROFESSIONAL MODE<span class="zh">· 专业视角</span></div>
+        <div class="pro-splitText">
+          读门锁、看墙体、<br>
+          判断住下来的真实体验。
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIGNALS PANEL -->
+  <div class="pro-panel">
+    <div class="pro-tag">PROFESSIONAL MODE · 我们读什么</div>
+    <h2 class="pro-title">Signals beyond standards</h2>
+
+    <div class="pro-grid">
+      <div class="pro-item">门窗密封 · 气流判断</div>
+      <div class="pro-item">磨损痕迹 · 年限判断</div>
+      <div class="pro-item">墙面线索 · 渗漏预判</div>
+      <div class="pro-item">采光遮挡 · 视线隐患</div>
+      <div class="pro-item">厨浴实测 · 设施状态</div>
+      <div class="pro-item">Condition Report 记录点</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CLOSING -->
+<div class="pro-closing">
+  <div class="pro-closingText">
+    我们不比谁看得多,而是读得不一样。
+  </div>
+  <div class="pro-closingFoot">
+    本页仅作参考,具体服务范围以沟通确认为准。
+  </div>
+</div>
+
+</main>
+
+<div id="footer-placeholder"></div>
+
+<script src="../js/header.js"></script>
+<script src="../js/footer.js"></script>
+
 </body>
 </html>
