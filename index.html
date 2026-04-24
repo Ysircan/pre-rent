@@ -7,6 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/footer.css">
 
   <style>
     :root {
@@ -406,7 +407,7 @@
     }
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 28px;
     }
     .svc-card {
@@ -761,7 +762,7 @@
       <div class="trust-label">已协助安顿</div>
     </div>
     <div class="trust-item">
-      <div class="trust-num">48h</div>
+      <div class="trust-num">10min</div>
       <div class="trust-label">平均响应</div>
     </div>
     <div class="trust-item">
@@ -769,7 +770,7 @@
       <div class="trust-label">满意反馈</div>
     </div>
     <div class="trust-item">
-      <div class="trust-num">中文</div>
+      <div class="trust-num">中英</div>
       <div class="trust-label">全程沟通</div>
     </div>
   </div>
@@ -782,7 +783,7 @@
       把到墨尔本之后最混乱的那几天，<br>变得稍微轻松一些。
     </h2>
     <p class="feeling-sub">
-      不是什么都能帮，但在找房、入住、和生活刚开始的阶段，有人陪你一起理清楚，体验真的会不一样。
+      在找房、入住、和生活刚开始的阶段，有人陪你理清楚，体验会不一样。
     </p>
   </section>
 
@@ -796,7 +797,7 @@
         <div class="svc-num">01</div>
         <h3 class="svc-title">住房支持</h3>
         <p class="svc-desc">
-          看房前帮你理清重点，入住前帮你检查状况。让租房这件事少一点不确定。
+          看房前帮你理清重点，入住前帮你检查状况。
         </p>
         <div class="svc-tags">
           <span>看房协助</span>
@@ -805,31 +806,17 @@
         </div>
       </a>
 
-      <a class="svc-card" href="#">
+      <a class="svc-card" href="./landing/index.html">
         <div class="svc-icon">02</div>
         <div class="svc-num">02</div>
         <h3 class="svc-title">落地支持</h3>
         <p class="svc-desc">
-          刚到一个新城市时，事情本身不难，但一多就乱。帮你把最开始的节奏找到。
+          刚到一个新城市时，帮助您理清头绪。
         </p>
         <div class="svc-tags">
-          <span>刚到墨尔本</span>
+          <span>落地墨尔本</span>
           <span>日常安排</span>
           <span>生活指引</span>
-        </div>
-      </a>
-
-      <a class="svc-card" href="#">
-        <div class="svc-icon">03</div>
-        <div class="svc-num">03</div>
-        <h3 class="svc-title">清洁服务</h3>
-        <p class="svc-desc">
-          在真正住进去之前，先让空间变得干净舒服。好的开始从一个清爽的房间开始。
-        </p>
-        <div class="svc-tags">
-          <span>入住前清洁</span>
-          <span>空间整理</span>
-          <span>轻松预约</span>
         </div>
       </a>
 
@@ -896,28 +883,20 @@
   <!-- CTA -->
   <section class="cta-section">
     <div class="cta-card">
-      <h2 class="cta-title">先告诉我们，<br>你现在在哪个阶段。</h2>
+      <h2 class="cta-title">准备好了，从这里开始</h2>
       <p class="cta-desc">
         不用想清楚所有事，从最实际的那一步开始就够了。
       </p>
       <div class="cta-actions">
         <a href="./book/index.html" class="btn-primary">预约时间 →</a>
-        <a href="#" class="btn-ghost">先联系我们</a>
+        
       </div>
     </div>
   </section>
 
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-left">© 2026 Melbourne Settlement Support</div>
-    <div class="footer-right">
-      <a href="./rent/index.html">住房支持</a>
-      <a href="./landing/index.html">落地支持</a>
-      <a href="#">清洁服务</a>
-      <a href="./book/index.html">预约</a>
-    </div>
-  </footer>
+  <div id="footer-placeholder"></div>
 
 
   <script>
@@ -969,6 +948,7 @@
       observer.observe(el);
     });
   </script>
+  <script src="./js/footer.js"></script>
 
 </body>
 </html>

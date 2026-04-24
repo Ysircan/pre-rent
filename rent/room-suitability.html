@@ -8,10 +8,13 @@
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/pages/room.css">
+<link rel="stylesheet" href="../css/footer.css">
 
 </head>
 
 <body data-page="room">
+
+<div id="header-placeholder"></div>
 
 <main class="page">
 
@@ -77,6 +80,8 @@
 </div>
 
 </main>
+
+<div id="footer-placeholder"></div>
 
 <script>
 const SCALE_M=0.5;
@@ -214,6 +219,8 @@ metaArea.textContent=`面积 ${(sizes.room.w*sizes.room.h).toFixed(2)} 平方米
 renderEditor();
 updateSummary();
 </script>
+<script src="../js/header.js"></script>
+<script src="../js/footer.js"></script>
 
 </body>
 </html>

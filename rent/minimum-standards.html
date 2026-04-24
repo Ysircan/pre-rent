@@ -8,10 +8,13 @@
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/pages/minimum.css">
+<link rel="stylesheet" href="../css/footer.css">
 
 </head>
 
 <body data-page="minimum">
+
+<div id="header-placeholder"></div>
 
 <main class="page">
 
@@ -21,36 +24,36 @@
 
     <div class="ms-typeCol left">
       <div class="ms-typeBlock">
-        <div class="ms-typeBig">最低</div>
-        <div class="ms-typeBig">标准</div>
-        <div class="ms-typeBig">检查</div>
+        <div class="ms-typeBig">LOCKS</div>
+        <div class="ms-typeBig">WINDOWS</div>
+        <div class="ms-typeBig">COVERINGS</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeMid">供暖</div>
-        <div class="ms-typeMid">安全</div>
-        <div class="ms-typeMid">结构</div>
+        <div class="ms-typeMid">TOILETS</div>
+        <div class="ms-typeMid">BATHROOM</div>
+        <div class="ms-typeMid">KITCHEN</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeTiny">维州租赁合规</div>
+        <div class="ms-typeTiny">LAUNDRY · HEATING</div>
       </div>
     </div>
 
     <div class="ms-typeCol right">
       <div class="ms-typeBlock">
-        <div class="ms-typeBig">租房</div>
-        <div class="ms-typeBig">安全</div>
-        <div class="ms-typeBig">报告</div>
+        <div class="ms-typeBig">STRUCTURE</div>
+        <div class="ms-typeBig">MOULD</div>
+        <div class="ms-typeBig">LIGHTING</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeMid">风险提示</div>
-        <div class="ms-typeMid">检查记录</div>
+        <div class="ms-typeMid">VENTILATION</div>
+        <div class="ms-typeMid">ELECTRICAL</div>
       </div>
 
       <div class="ms-typeBlock">
-        <div class="ms-typeTiny">签约前检查</div>
+        <div class="ms-typeTiny">BINS</div>
       </div>
     </div>
 
@@ -65,18 +68,18 @@
     <div class="ms-panel">
 
       <div class="ms-switchRow">
-        <div class="ms-switch active" data-key="heating">供暖</div>
-        <div class="ms-switch" data-key="lighting">照明</div>
-        <div class="ms-switch" data-key="ventilation">通风</div>
-        <div class="ms-switch" data-key="security">安保</div>
+        <div class="ms-switch active" data-key="entry">入户安全</div>
+        <div class="ms-switch" data-key="living">居住设施</div>
+        <div class="ms-switch" data-key="environment">环境质量</div>
+        <div class="ms-switch" data-key="support">基础配套</div>
       </div>
 
       <div class="ms-titleMain" id="title"></div>
       <ul class="ms-signals" id="signals"></ul>
 
       <div class="ms-foot">
-        最低标准定义了底线，我们负责解释现场情况。
-        <a href="#">官方指南 →</a>
+        本页仅作参考,不构成合规检查。完整法规见
+        <a href="https://www.consumer.vic.gov.au/housing/renting/repairs-alterations-safety-and-pets/minimum-standards/checklist-rental-properties-minimum-standards" target="_blank" rel="noopener noreferrer">官方指南 →</a>
       </div>
 
     </div>
@@ -86,91 +89,151 @@
 
 </main>
 
+<div id="footer-placeholder"></div>
+
 <script>
 
-const ITEMS=[
-["供暖系统","需要固定供暖设备"],
-["烟雾报警器","需要正常工作"],
-["门锁","外门需要安全可锁"],
-["照明","需要满足最低照明标准"],
-["通风","浴室需要空气流通"],
-["窗户","必须能安全开启"],
-["配电箱","需要电路保护"],
-["结构","墙体状况需要稳定"]
+const PANEL_DATA = {
+  entry: {
+    title: "入户安全",
+    items: [
+      { name: "门锁", points: ["外门的门锁装配", "钥匙的交付与管理", "特殊门类的豁免"] },
+      { name: "窗户", points: ["可开启窗的开关装置", "安全性与磨损", "卧室窗的基本功能"] },
+      { name: "窗帘与遮挡", points: ["卧室的遮挡物", "起居室的遮挡物", "私密性与光线控制"] }
+    ]
+  },
+  living: {
+    title: "居住设施",
+    items: [
+      { name: "厕所", points: ["排污系统接入", "冲水功能", "私密性与位置"] },
+      { name: "浴室", points: ["淋浴或浴缸", "洗手盆", "冷热水供应"] },
+      { name: "厨房", points: ["水槽与排水", "炉灶数量", "基本烹饪功能"] },
+      { name: "洗衣", points: ["冷热水接入", "洗衣机位", "排水出口"] },
+      { name: "供暖", points: ["固定供暖设备", "主起居区域位置", "能效与运行状态"] }
+    ]
+  },
+  environment: {
+    title: "环境质量",
+    items: [
+      { name: "结构", points: ["地板完好度", "墙体稳定性", "屋顶与吊顶"] },
+      { name: "防潮与霉变", points: ["墙面可见痕迹", "天花板水渍", "浴室与湿区霉斑"] },
+      { name: "照明", points: ["自然采光", "人工照明", "每个房间的照度"] },
+      { name: "通风", points: ["建筑规范通风", "湿区排气", "空气流动"] }
+    ]
+  },
+  support: {
+    title: "基础配套",
+    items: [
+      { name: "电力", points: ["配电箱漏电保护", "基本电路功能", "插座与开关"] },
+      { name: "垃圾处理", points: ["带盖垃圾桶", "可回收桶", "合规的垃圾位"] }
+    ]
+  }
+};
+
+const CARD_ITEMS = [
+  { category: "entry", name: "门锁", desc: "门锁与钥匙" },
+  { category: "entry", name: "窗户", desc: "开关与功能" },
+  { category: "entry", name: "窗帘与遮挡", desc: "私密与遮光" },
+  { category: "living", name: "厕所", desc: "排污与冲水" },
+  { category: "living", name: "浴室", desc: "洗浴与冷热水" },
+  { category: "living", name: "厨房", desc: "水槽与炉灶" },
+  { category: "living", name: "洗衣", desc: "接水与排水" },
+  { category: "living", name: "供暖", desc: "固定设备" },
+  { category: "environment", name: "结构", desc: "墙地顶状态" },
+  { category: "environment", name: "防潮与霉变", desc: "水渍与霉斑" },
+  { category: "environment", name: "照明", desc: "采光与照度" },
+  { category: "environment", name: "通风", desc: "排气与流动" },
+  { category: "support", name: "电力", desc: "漏保与回路" },
+  { category: "support", name: "垃圾处理", desc: "垃圾与回收" }
 ];
 
-function card(i){
-return `<div class="ms-card">
-<div class="ms-tag">检查</div>
-<div class="ms-ctitle">${i[0]}</div>
-<div class="ms-cdesc">${i[1]}</div>
+function card(item) {
+  return `<div class="ms-card" data-category="${item.category}" data-item="${item.name}">
+<div class="ms-tag">${PANEL_DATA[item.category].title}</div>
+<div class="ms-ctitle">${item.name}</div>
+<div class="ms-cdesc">${item.desc}</div>
 </div>`;
 }
 
-const lanesEl=document.getElementById("lanes");
-const inners=[];
-const pos=[];
+const lanesEl = document.getElementById("lanes");
+const title = document.getElementById("title");
+const signals = document.getElementById("signals");
+const switches = document.querySelectorAll(".ms-switch");
+const inners = [];
+const pos = [];
 
-for(let i=0;i<5;i++){
-const lane=document.createElement("div");
-lane.className="ms-lane";
-const inner=document.createElement("div");
-inner.className="ms-inner";
+for (let i = 0; i < 5; i++) {
+  const lane = document.createElement("div");
+  lane.className = "ms-lane";
+  const inner = document.createElement("div");
+  inner.className = "ms-inner";
 
-let html="";
-for(let j=0;j<ITEMS.length;j++){
-html+=card(ITEMS[(j+i)%ITEMS.length]);
+  let html = "";
+  for (let j = 0; j < CARD_ITEMS.length; j++) {
+    html += card(CARD_ITEMS[(j + i) % CARD_ITEMS.length]);
+  }
+  html += html;
+
+  inner.innerHTML = html;
+  lane.appendChild(inner);
+  lanesEl.appendChild(lane);
+
+  inners.push(inner);
+  pos.push(i % 2 ? -200 : -60);
 }
-html+=html;
 
-inner.innerHTML=html;
-lane.appendChild(inner);
-lanesEl.appendChild(lane);
+const heights = inners.map(el => el.offsetHeight / 2);
 
-inners.push(inner);
-pos.push(i%2?-200:-60);
-}
-
-const heights=inners.map(el=>el.offsetHeight/2);
-
-function animate(){
-for(let i=0;i<inners.length;i++){
-const dir=i%2?1:-1;
-pos[i]+=dir*0.18;
-if(pos[i]>0)pos[i]=-heights[i];
-if(pos[i]<-heights[i])pos[i]=0;
-inners[i].style.transform=`translate3d(0,${pos[i]}px,0)`;
-}
-requestAnimationFrame(animate);
+function animate() {
+  for (let i = 0; i < inners.length; i++) {
+    const dir = i % 2 ? 1 : -1;
+    pos[i] += dir * 0.18;
+    if (pos[i] > 0) pos[i] = -heights[i];
+    if (pos[i] < -heights[i]) pos[i] = 0;
+    inners[i].style.transform = `translate3d(0,${pos[i]}px,0)`;
+  }
+  requestAnimationFrame(animate);
 }
 animate();
 
-const DATA={
-heating:{title:"供暖信号",list:["是否有固定供暖设备","是否存在寒冷死角","摆放位置是否有安全风险"]},
-lighting:{title:"照明信号",list:["亮度是否足够","是否光线偏暗","灯具是否失效"]},
-ventilation:{title:"通风信号",list:["空气流通路径","排风是否偏弱","是否有潮湿迹象"]},
-security:{title:"安保信号",list:["门锁完整性","窗扣检查","闭合是否对齐"]}
-};
+lanesEl.style.pointerEvents = "auto";
 
-const title=document.getElementById("title");
-const signals=document.getElementById("signals");
-const switches=document.querySelectorAll(".ms-switch");
-
-function render(key){
-title.textContent=DATA[key].title;
-signals.innerHTML=DATA[key].list.map(v=>`<li>${v}</li>`).join("");
+function render(key) {
+  const current = PANEL_DATA[key];
+  title.textContent = current.title;
+  signals.innerHTML = current.items
+    .map(item => `<li><strong>${item.name}</strong>：${item.points.join(" / ")}</li>`)
+    .join("");
 }
-render("heating");
 
-switches.forEach(btn=>{
-btn.onclick=()=>{
-switches.forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-render(btn.dataset.key);
-};
+function setActiveCategory(key) {
+  switches.forEach(btn => btn.classList.toggle("active", btn.dataset.key === key));
+  render(key);
+}
+
+setActiveCategory("entry");
+
+switches.forEach(btn => {
+  btn.onclick = () => {
+    setActiveCategory(btn.dataset.key);
+  };
+});
+
+document.querySelectorAll(".ms-card").forEach(cardEl => {
+  cardEl.style.pointerEvents = "auto";
+  cardEl.tabIndex = 0;
+  cardEl.addEventListener("click", () => setActiveCategory(cardEl.dataset.category));
+  cardEl.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setActiveCategory(cardEl.dataset.category);
+    }
+  });
 });
 
 </script>
+<script src="../js/header.js"></script>
+<script src="../js/footer.js"></script>
 
 </body>
 </html>

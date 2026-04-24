@@ -23,11 +23,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // ===== ACTIVE NAV =====
-      const page = document.body.dataset.page;
-      if (!page) return;
+      const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+      let activeNav = "home";
 
-      document.querySelectorAll("[data-page]").forEach(el => {
-        if (el.dataset.page === page) {
+      if (pathname === "/" || pathname === "/index.html") {
+        activeNav = "home";
+      } else if (pathname.startsWith("/rent/")) {
+        activeNav = "housing";
+      } else if (pathname.startsWith("/landing/")) {
+        activeNav = "landing";
+      } else if (pathname.startsWith("/book/")) {
+        activeNav = "book";
+      }
+
+      document.querySelectorAll("[data-nav]").forEach(el => {
+        if (el.dataset.nav === activeNav) {
           el.classList.add("is-active");
         }
       });
