@@ -42,7 +42,7 @@
 <section class="book-hero">
   <div class="book-eyebrow">预约服务</div>
   <h1 class="book-title">告诉我们你需要什么，<br>我们来安排。</h1>
-  <p class="book-desc">选好服务、留下联系方式，我们会在 24 小时内和你确认细节。</p>
+  <p class="book-desc">选好服务、留下联系方式，扫码加微信完成预约。</p>
 </section>
 
 
@@ -99,7 +99,7 @@
             <div class="svc-option-num">02</div>
             <div>
               <div class="svc-option-name">落地支持</div>
-              <div class="svc-option-tag">接机 · 银行开户 · 家具采购 · 生活安顿</div>
+              <div class="svc-option-tag">接机 · 银行开户 · TFN · 家具采购 · 生活安顿</div>
             </div>
           </div>
           <div class="svc-check"><div class="svc-check-inner"></div></div>
@@ -107,13 +107,13 @@
         <div class="svc-subitems">
           <div class="svc-subitems-inner">
             <div class="sub-chip" data-sub="机场接送">机场接送</div>
-            <div class="sub-chip" data-sub="电话卡办理">电话卡办理</div>
+            <div class="sub-chip" data-sub="SIM卡激活">SIM卡激活</div>
             <div class="sub-chip" data-sub="银行开户">银行开户</div>
+            <div class="sub-chip" data-sub="TFN税号">TFN税号</div>
             <div class="sub-chip" data-sub="家具采购">家具采购</div>
             <div class="sub-chip" data-sub="日用品采购">日用品采购</div>
-            <div class="sub-chip" data-sub="Myki交通卡">Myki交通卡</div>
             <div class="sub-chip" data-sub="WiFi安装">WiFi安装</div>
-            <div class="sub-chip" data-sub="周边熟悉">周边熟悉</div>
+            <div class="sub-chip" data-sub="生活配套带逛">生活配套带逛</div>
           </div>
         </div>
       </div>
@@ -128,18 +128,12 @@
   <!-- Step 2: Contact Info -->
   <div class="wizard-panel" data-panel="1">
     <div class="panel-title">怎么联系你？</div>
-    <div class="panel-desc">留下联系方式和基本情况，我们会尽快和你确认。</div>
+    <div class="panel-desc">留下姓名和基本情况，稍后加微信时会用到。</div>
 
     <div class="form-fields">
-      <div class="field-row">
-        <div class="field-group">
-          <label>姓名 <span class="req">*</span></label>
-          <input type="text" id="fName" placeholder="你的名字">
-        </div>
-        <div class="field-group">
-          <label>联系方式 <span class="req">*</span></label>
-          <input type="text" id="fContact" placeholder="微信号 / 手机号">
-        </div>
+      <div class="field-group">
+        <label>姓名 <span class="req">*</span></label>
+        <input type="text" id="fName" placeholder="你的名字">
       </div>
 
       <div class="field-group">
@@ -171,8 +165,8 @@
         <div class="confirm-chips" id="cfItems"></div>
       </div>
       <div class="confirm-section">
-        <div class="confirm-label">联系信息</div>
-        <div class="confirm-value" id="cfContact">--</div>
+        <div class="confirm-label">姓名</div>
+        <div class="confirm-value" id="cfName">--</div>
       </div>
       <div class="confirm-section">
         <div class="confirm-label">到达日期</div>
@@ -186,7 +180,7 @@
 
     <div class="wizard-nav">
       <button class="btn-ghost" id="backStep2">← 上一步</button>
-      <button class="btn-primary" id="submitBtn">确认预约 →</button>
+      <button class="btn-primary" id="submitBtn">生成预约编号 →</button>
     </div>
   </div>
 
@@ -197,8 +191,32 @@
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
     </div>
-    <h2 class="success-title">预约已提交</h2>
-    <p class="success-desc">我们会在 24 小时内通过你留的联系方式和你确认具体安排。先放松一下吧。</p>
+    <h2 class="success-title">预约已生成</h2>
+    <p class="success-desc">扫码加微信后，把下面这个编号发给我们，即可立刻安排你的需求。</p>
+
+    <div>
+      <p>你的预约编号</p>
+      <h3 id="bookingCode">R0000-XX</h3>
+      <p>记下它，加微信时发送给我们</p>
+      <button class="btn-primary" id="copyCodeBtn">复制编号</button>
+    </div>
+
+    <div>
+      <img id="wechatQR" src="../assets/images/wechat-qr.png" alt="微信二维码" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+      <p style="display:none">微信二维码（待上传到 assets/images/wechat-qr.png）</p>
+      <p><strong>扫码加微信</strong></p>
+      <p>ASAP Group · 墨尔本落地与住房支持</p>
+    </div>
+
+    <div>
+      <p><strong>接下来怎么做</strong></p>
+      <ol>
+        <li>复制你的预约编号 <strong id="stepCode">R0000-XX</strong></li>
+        <li>用微信扫描上方二维码添加好友</li>
+        <li>通过好友后，把编号发给我们，我们立刻为你安排</li>
+      </ol>
+    </div>
+
     <div style="margin-top: 32px;">
       <a href="../index.html" class="btn-ghost">← 回到首页</a>
     </div>
@@ -322,10 +340,9 @@ document.getElementById('backStep1').addEventListener('click', () => {
 
 document.getElementById('toStep3').addEventListener('click', () => {
   const name = document.getElementById('fName').value.trim();
-  const contact = document.getElementById('fContact').value.trim();
 
-  if (!name || !contact) {
-    alert('请填写姓名和联系方式');
+  if (!name) {
+    alert('请填写姓名');
     return;
   }
 
@@ -342,7 +359,7 @@ document.getElementById('toStep3').addEventListener('click', () => {
     });
   }
 
-  document.getElementById('cfContact').textContent = name + '  ·  ' + contact;
+  document.getElementById('cfName').textContent = name;
 
   const dateVal = document.getElementById('fDate').value;
   document.getElementById('cfDate').textContent = dateVal || '暂未确定';
@@ -358,12 +375,62 @@ document.getElementById('backStep2').addEventListener('click', () => {
   goToStep(1);
 });
 
+let bookingCode = '';
+
+function generateBookingCode() {
+  const pool = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const now = new Date();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  let suffix = '';
+  for (let i = 0; i < 2; i++) {
+    suffix += pool.charAt(Math.floor(Math.random() * pool.length));
+  }
+  return 'R' + mm + dd + '-' + suffix;
+}
+
 document.getElementById('submitBtn').addEventListener('click', () => {
+  bookingCode = generateBookingCode();
+  document.getElementById('bookingCode').textContent = bookingCode;
+  document.getElementById('stepCode').textContent = bookingCode;
+
   document.querySelectorAll('.wizard-progress, .wiz-labels, .wizard-panel').forEach(el => {
     el.style.display = 'none';
   });
   document.getElementById('successView').classList.add('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.getElementById('copyCodeBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('copyCodeBtn');
+  const restore = () => { setTimeout(() => { btn.textContent = '复制编号'; }, 2000); };
+
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(bookingCode);
+      btn.textContent = '已复制 ✓';
+      restore();
+      return;
+    }
+    throw new Error('no clipboard api');
+  } catch (err) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = bookingCode;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (!ok) throw new Error('execCommand failed');
+      btn.textContent = '已复制 ✓';
+      restore();
+    } catch (e) {
+      alert('复制失败，请手动选中编号复制');
+    }
+  }
 });
 </script>
 <script src="../js/footer.js"></script>
