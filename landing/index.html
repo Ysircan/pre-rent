@@ -59,19 +59,19 @@
   <div class="tl-axis" id="tlAxis">
     <div class="tl-node active" data-phase="0">
       <div class="tl-dot">01</div>
-      <div class="tl-node-label">到达当天</div>
+      <div class="tl-node-label">Day 1</div>
       <div class="tl-node-title">落地第一件事</div>
     </div>
 
     <div class="tl-node" data-phase="1">
       <div class="tl-dot">02</div>
-      <div class="tl-node-label">第一周</div>
+      <div class="tl-node-label">Day 2</div>
       <div class="tl-node-title">把基础搞定</div>
     </div>
 
     <div class="tl-node" data-phase="2">
       <div class="tl-dot">03</div>
-      <div class="tl-node-label">前两周</div>
+      <div class="tl-node-label">Day 3</div>
       <div class="tl-node-title">生活上轨道</div>
     </div>
   </div>
@@ -178,7 +178,7 @@ siteMobileMenu.querySelectorAll('a').forEach(link => {
 const phases = [
   {
     num: '01',
-    sub: '到达当天',
+    sub: 'Day 1',
     title: '落地第一件事',
     color: '#C4805A',
     services: [
@@ -188,8 +188,8 @@ const phases = [
         chips: ['Tullamarine 接机', '大件行李', '灵活时间']
       },
       {
-        name: '电话卡办理',
-        desc: '根据你的用量推荐运营商，到店办理或提前准备好，落地就有网络。',
+        name: 'SIM 卡落地激活',
+        desc: '提前帮你选好套餐，落地当天 SIM 卡即插即用，不用排队办理。',
         chips: ['Optus / Vodafone / Telstra', '套餐对比', '即时激活']
       },
       {
@@ -201,7 +201,7 @@ const phases = [
   },
   {
     num: '02',
-    sub: '第一周',
+    sub: 'Day 2',
     title: '把基础搞定',
     color: '#7A8B6F',
     services: [
@@ -211,9 +211,9 @@ const phases = [
         chips: ['ANZ / CommBank / NAB', '现场陪同', '网银设置']
       },
       {
-        name: 'Myki 交通卡',
-        desc: '办卡、充值、教你怎么坐车，日常出行不再迷路。',
-        chips: ['办卡充值', '路线规划', '常用线路']
+        name: 'TFN 税号申请',
+        desc: '协助在线申请税号，找工作、开户、报税都需要它。',
+        chips: ['ATO 在线申请', '资料准备', '到号提醒']
       },
       {
         name: '家具采购与配送',
@@ -224,7 +224,7 @@ const phases = [
   },
   {
     num: '03',
-    sub: '前两周',
+    sub: 'Day 3',
     title: '生活上轨道',
     color: '#5C7A9B',
     services: [
@@ -234,14 +234,14 @@ const phases = [
         chips: ['NBN 对比', '预约安装', '中文沟通']
       },
       {
-        name: '日用品与厨具',
-        desc: '超市带逛或按清单代购，厨具、调料、清洁用品一趟搞定。',
-        chips: ['Woolworths / Coles', '亚洲超市', '清单代购']
+        name: '生活配套带逛',
+        desc: '一次性带你走一遍住处周围的超市、药房、车站、餐厅，建立日常生活半径。',
+        chips: ['Woolworths / Coles', '亚洲超市', '生活半径']
       },
       {
-        name: '周边环境熟悉',
-        desc: '带你认识附近超市、车站、药房、餐厅，建立日常生活半径。',
-        chips: ['步行范围', '公共交通', '生活配套']
+        name: '日用品与厨具采购',
+        desc: '按清单一趟搞定，厨具、调料、清洁用品都给你备齐。',
+        chips: ['清单代购', '亚洲调味', '厨房基础']
       }
     ]
   }
